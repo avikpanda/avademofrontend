@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import React from "react";
-import { Grid, Button } from "@material-ui/core";
+import { Grid, Button, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
@@ -10,6 +9,12 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 // import SpeechToTextComponent from "../components/SpeechToTextComponent";
 import TextToSpeechComponent from "../components/TextToSpeechComponent";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
+import StepContent from "@material-ui/core/StepContent";
+import Chatbox from "../components/Chatbox";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,10 +62,55 @@ const useStyles = makeStyles((theme) => ({
     height: theme.typography.pxToRem(40),
     margin: 0,
   },
+  button: {
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
+  },
+  actionsContainer: {
+    marginBottom: theme.spacing(2),
+  },
+  resetContainer: {
+    padding: theme.spacing(3),
+  },
+  stepperRoot: {
+    padding: 0,
+  },
+  chatContainer: {
+    display: "block",
+    overflow: "scroll",
+    height: theme.typography.pxToRem(250),
+    width: "85%",
+  },
 }));
 
 export default function Call({ client, isWebSocketConnected }) {
   const classes = useStyles();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const steps = [
+    "Correspondence Loading",
+    "Correspondence Ready to send",
+    "Correspondence Sent",
+  ];
+  const transcriptData = [
+    { type: "customer", text: "Hi there" },
+    { type: "AI", text: "Hello" },
+  ];
+  // const transcriptData = useSelector(
+  //     (state) => state.transcriptionReducer.data
+  // );
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+
   return (
     <Grid container alignItems="center" spacing={2} className={classes.root}>
       <Grid item xs={6}>
@@ -130,28 +180,78 @@ export default function Call({ client, isWebSocketConnected }) {
               root: classes.cardContent,
             }}
           >
-            <ul>
-              <li>
-                <Typography variant="h5" component="h2">
-                  Customer Identified
+            <Stepper
+              activeStep={activeStep}
+              orientation="vertical"
+              classes={{ root: classes.stepperRoot }}
+            >
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                  <StepContent>
+                    <div className={classes.actionsContainer}>
+                      <div>
+                        <Button
+                          disabled={activeStep === 0}
+                          onClick={handleBack}
+                          className={classes.button}
+                        >
+                          Back
+                        </Button>
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleNext}
+                          className={classes.button}
+                        >
+                          {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                        </Button>
+                      </div>
+                    </div>
+                  </StepContent>
+                </Step>
+              ))}
+            </Stepper>
+            {activeStep === steps.length && (
+              <Paper square elevation={0} className={classes.resetContainer}>
+                <Typography>
+                  All steps completed - you&apos;re finished
                 </Typography>
-              </li>
-              <li>
-                <Typography variant="h5" component="h2">
-                  Open P2Ps
-                </Typography>
-              </li>
-            </ul>
+                <Button onClick={handleReset} className={classes.button}>
+                  Reset
+                </Button>
+              </Paper>
+            )}
           </CardContent>
         </Card>
       </Grid>
       <Grid item xs={8}>
         <Card className={classes.cardRoot}>
           <CardHeader title="Transcription" />
-          <div>
+          <CardContent
+            classes={{
+              root: classes.cardContent,
+            }}
+          >
+            <div className={classes.chatContainer}>
+              {transcriptData?.map((transcript) => (
+                <Chatbox
+                  side={transcript.type == "customer" ? "left" : "right"}
+                  avatarTitle={transcript.type}
+                  timestamp={new Date()}
+                  key={transcript?.text}
+                  avatarChildren={
+                    <Avatar aria-label="recipe" className={classes.avatar}>
+                      {transcript?.type?.substring(0, 1)}
+                    </Avatar>
+                  }
+                  text={transcript?.text}
+                />
+              ))}
+            </div>
             {/* <SpeechToTextComponent /> */}
             <TextToSpeechComponent />
-          </div>
+          </CardContent>
         </Card>
       </Grid>
     </Grid>
