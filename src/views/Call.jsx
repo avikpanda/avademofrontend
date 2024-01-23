@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Button } from "@material-ui/core";
+import { Grid, Button, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -9,6 +9,11 @@ import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
 // import SpeechToTextComponent from "../components/SpeechToTextComponent";
 import TextToSpeechComponent from "../components/TextToSpeechComponent";
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import StepContent from '@material-ui/core/StepContent';
+import Chatbox from '../components/Chatbox';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,12 +59,45 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "red",
     width: theme.typography.pxToRem(100),
     height: theme.typography.pxToRem(40),
-    margin: 0,
-  },
+    margin: 0
+    },
+    button: {
+        marginTop: theme.spacing(1),
+        marginRight: theme.spacing(1),
+      },
+      actionsContainer: {
+        marginBottom: theme.spacing(2),
+      },
+      resetContainer: {
+        padding: theme.spacing(3),
+      },
+      stepperRoot: {
+        padding: 0
+      }
 }));
 
+  
+  
+
+  
 export default function Call() {
   const classes = useStyles();
+  const [activeStep, setActiveStep] = React.useState(0);
+    const steps = ['Correspondence Loading', 'Correspondence Ready to send', 'Correspondence Sent'];
+
+  
+    const handleNext = () => {
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
+  
+    const handleBack = () => {
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
+  
+    const handleReset = () => {
+      setActiveStep(0);
+    };
+
   return (
     <Grid container alignItems="center" spacing={2} className={classes.root}>
       <Grid item xs={6}>
@@ -109,36 +147,78 @@ export default function Call() {
       </Grid>
       <Grid item xs={4}>
         <Card className={classes.cardRoot}>
-          <CardHeader title="AI Touch Points" />
-          <CardContent
-            classes={{
-              root: classes.cardContent,
-            }}
-          >
-            <ul>
-              <li>
-                <Typography variant="h5" component="h2">
-                  Customer Identified
-                </Typography>
-              </li>
-              <li>
-                <Typography variant="h5" component="h2">
-                  Open P2Ps
-                </Typography>
-              </li>
-            </ul>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={8}>
+      <CardHeader title="AI Touch Points"/>
+      <CardContent
+       classes={{
+        root: classes.cardContent,
+       }} 
+      >
+        <Stepper activeStep={activeStep} orientation="vertical" classes={{root: classes.stepperRoot}}>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+              <StepContent>
+                <div className={classes.actionsContainer}>
+                  <div>
+                    <Button
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                      className={classes.button}
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    </Button>
+                  </div>
+                </div>
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
+        {activeStep === steps.length && (
+          <Paper square elevation={0} className={classes.resetContainer}>
+            <Typography>All steps completed - you&apos;re finished</Typography>
+            <Button onClick={handleReset} className={classes.button}>
+              Reset
+            </Button>
+          </Paper>
+        )}
+    </CardContent>
+    </Card>
+        </Grid>
+        <Grid item xs={8}>
         <Card className={classes.cardRoot}>
-          <CardHeader title="Transcription" />
-          <div>
-            {/* <SpeechToTextComponent /> */}
-            <TextToSpeechComponent />
-          </div>
-        </Card>
-      </Grid>
+      <CardHeader title="Transcription"/>
+      <Chatbox 
+      side="left"
+      avatarTitle={"AI"}
+      timestamp={new Date()}
+      key={0}
+      avatarChildren={ <Avatar aria-label="recipe" className={classes.avatar}>
+      AI
+</Avatar>}
+      text={"Hi there"}
+       />
+       <Chatbox 
+      side="right"
+      avatarTitle={"User"}
+      timestamp={new Date()}
+      key={1}
+      avatarChildren={ <Avatar aria-label="recipe" className={classes.avatar}>
+      User
+</Avatar>}
+      text={"Hello"}
+       />
+       {/* <SpeechToTextComponent /> */}
+       <TextToSpeechComponent />
+    </Card>
+        </Grid>
     </Grid>
   );
 }
