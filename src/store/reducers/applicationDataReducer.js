@@ -2,6 +2,7 @@ const initialState = {
   callState: "incoming",
   customerId: null,
   contactId: null,
+  isWebSocketConnected: false,
   data: [],
 };
 
@@ -21,6 +22,11 @@ export default function applicationDataReducer(state = initialState, action) {
       return {
         ...state,
         contactId: action.payload,
+      };
+    case "SET_WEBSOCKET_CONNECTION":
+      return {
+        ...state,
+        isWebSocketConnected: action.payload,
       };
     default:
       return state;

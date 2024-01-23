@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { Grid, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Call() {
+export default function Call({ client, isWebSocketConnected }) {
   const classes = useStyles();
   return (
     <Grid container alignItems="center" spacing={2} className={classes.root}>
@@ -92,7 +93,21 @@ export default function Call() {
               >
                 Security Role : Analyst
               </Typography>
-              <Button className={classes.hangup}>Hangup</Button>
+              <Button
+                className={classes.hangup}
+                onClick={() => {
+                  if (isWebSocketConnected && client)
+                    client.sendMessage(
+                      "/process-speech",
+                      JSON.stringify({
+                        name: "Abhijeet Dey",
+                        message: "this.state.typedMessage",
+                      })
+                    );
+                }}
+              >
+                Hangup
+              </Button>
             </div>
           </CardContent>
         </Card>
