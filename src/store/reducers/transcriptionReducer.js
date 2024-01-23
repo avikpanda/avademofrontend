@@ -1,14 +1,43 @@
 const initialState = {
-  state: "",
+  customerRecognizingTranscript: "",
+  aiRecognizingTranscript: "",
   data: [],
 };
 
 export default function transcriptionReducer(state = initialState, action) {
   switch (action.type) {
-    case "INCREMENT":
-      return state + 1;
-    case "INCREMENT_IF_ODD":
-      return state % 2 !== 0 ? state + 1 : state;
+    case "SET_CUSTOMER_RECOGNIZED_TRANSCRIPT":
+      return {
+        ...state,
+        data: [
+          ...state.data,
+          {
+            type: "customer",
+            text: action.payload,
+          },
+        ],
+      };
+    case "SET_AI_RECOGNIZED_TRANSCRIPT":
+      return {
+        ...state,
+        data: [
+          ...state.data,
+          {
+            type: "ai",
+            text: action.payload,
+          },
+        ],
+      };
+    case "SET_CUSTOMER_RECOGNIZING_TRANSCRIPT":
+      return {
+        ...state,
+        customerRecognizingTranscript: action.payload,
+      };
+    case "SET_AI_RECOGNIZING_TRANSCRIPT":
+      return {
+        ...state,
+        aiRecognizingTranscript: action.payload,
+      };
     case "DECREMENT":
       return state - 1;
     default:
