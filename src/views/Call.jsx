@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
     width: "98vw",
-    margin: theme.typography.pxToRem(20),
+    padding: `${theme.typography.pxToRem(60)} ${theme.typography.pxToRem(20)}`,
+    paddingBottom: 0,
   },
   cardRoot: {
     display: "flex",
@@ -28,12 +29,14 @@ const useStyles = makeStyles((theme) => ({
   },
   cardHeader: {
     display: "flex",
+    paddingBottom: 0,
   },
   cardContent: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    paddingBottom: `${theme.typography.pxToRem(20)} !important`,
   },
   title: {
     fontSize: 14,
@@ -52,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.typography.pxToRem(20),
   },
   avatar: {
-    backgroundColor: "red",
+    backgroundColor: "grey",
     color: "#00000F",
     border: "2px solid grey",
   },
@@ -61,6 +64,10 @@ const useStyles = makeStyles((theme) => ({
     width: theme.typography.pxToRem(100),
     height: theme.typography.pxToRem(40),
     margin: 0,
+    "&:hover": {
+      backgroundColor: "red",
+      border: "1px solid black",
+    },
   },
   button: {
     marginTop: theme.spacing(1),
@@ -113,7 +120,7 @@ export default function Call({ client, isWebSocketConnected }) {
 
   return (
     <Grid container alignItems="center" spacing={2} className={classes.root}>
-      <Grid item xs={6}>
+      <Grid item xs={4}>
         <Card className={classes.cardRoot}>
           <CardHeader
             title="Contact Info"
@@ -162,7 +169,7 @@ export default function Call({ client, isWebSocketConnected }) {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={8}>
         <Card className={classes.cardRoot}>
           <CardHeader title="Account Context" />
           <CardContent
@@ -182,7 +189,6 @@ export default function Call({ client, isWebSocketConnected }) {
           >
             <Stepper
               activeStep={activeStep}
-              orientation="vertical"
               classes={{ root: classes.stepperRoot }}
             >
               {steps.map((label) => (
@@ -212,16 +218,6 @@ export default function Call({ client, isWebSocketConnected }) {
                 </Step>
               ))}
             </Stepper>
-            {activeStep === steps.length && (
-              <Paper square elevation={0} className={classes.resetContainer}>
-                <Typography>
-                  All steps completed - you&apos;re finished
-                </Typography>
-                <Button onClick={handleReset} className={classes.button}>
-                  Reset
-                </Button>
-              </Paper>
-            )}
           </CardContent>
         </Card>
       </Grid>
@@ -234,20 +230,23 @@ export default function Call({ client, isWebSocketConnected }) {
             }}
           >
             <div className={classes.chatContainer}>
-              {transcriptData?.map((transcript) => (
-                <Chatbox
-                  side={transcript.type == "customer" ? "left" : "right"}
-                  avatarTitle={transcript.type}
-                  timestamp={new Date()}
-                  key={transcript?.text}
-                  avatarChildren={
-                    <Avatar aria-label="recipe" className={classes.avatar}>
-                      {transcript?.type?.substring(0, 1)}
-                    </Avatar>
-                  }
-                  text={transcript?.text}
-                />
-              ))}
+              {transcriptData?.map(
+                (transcript) =>
+                  transcript?.text?.trim().length > 0 && (
+                    <Chatbox
+                      side={transcript.type == "customer" ? "left" : "right"}
+                      avatarTitle={transcript.type}
+                      timestamp={new Date()}
+                      key={transcript?.text}
+                      avatarChildren={
+                        <Avatar aria-label="recipe" className={classes.avatar}>
+                          {transcript?.type == "AI" ? transcript?.type : transcript?.type?.substring(0, 1)}
+                        </Avatar>
+                      }
+                      text={transcript?.text}
+                    />
+                  )
+              )}
             </div>
             {/* <SpeechToTextComponent /> */}
             <TextToSpeechComponent />
