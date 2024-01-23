@@ -21,6 +21,8 @@ function App() {
     });
   };
 
+  const onPage2 = useSelector((state) => state.applicationDataReducer.onPage2);
+
   return (
     <>
       <SockJsClient
@@ -44,8 +46,14 @@ function App() {
         debug
       />
       <Header />
-      {true ? <Call client={SockClient.current} isWebSocketConnected={isWebSocketConnected} /> : <Home />}
-      {console.log(SockClient.current)}
+      {onPage2 ? (
+        <Call
+          client={SockClient.current}
+          isWebSocketConnected={isWebSocketConnected}
+        />
+      ) : (
+        <Home />
+      )}
       <Footer />
     </>
   );

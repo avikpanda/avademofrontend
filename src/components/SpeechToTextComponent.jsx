@@ -100,11 +100,11 @@ export default function SpeechToTextComponent() {
 
   return (
     <div>
-      <button onClick={pauseListening}>Pause Listening</button>
+      {/* <button onClick={pauseListening}>Pause Listening</button>
       <button onClick={resumeListening}>Resume Listening</button>
-      <button onClick={stopListening}>Stop Listening</button>
+      <button onClick={stopListening}>Stop Listening</button> */}
 
-      <div>
+      {/* <div>
         <div>Recognizing Transcript : {recognizingTranscript}</div>
 
         <div>Full Transcript :</div>
@@ -113,7 +113,7 @@ export default function SpeechToTextComponent() {
             <li key={`customer_${index}`}>{item.text}</li>
           ))}
         </ul>
-      </div>
+      </div> */}
     </div>
   );
 }

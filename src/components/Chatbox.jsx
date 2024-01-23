@@ -1,7 +1,6 @@
 import Grow from "@material-ui/core/Grow";
 import { makeStyles } from "@material-ui/core/styles";
 import { Typography, Grid, Avatar } from "@material-ui/core";
-import Pulse from "react-reveal/Pulse";
 
 const useStyles = makeStyles((theme) => ({
   chatBubble: {
@@ -168,16 +167,14 @@ const Chatbox = (props) => {
         </Grid>
         <Grid item className={defaultStyle[side]}>
           {text && (
-            <Pulse>
-              <Typography
-                className={{
-                  [defaultStyle.chatTextRight]: side === "right",
-                  [defaultStyle.chatTextLeft]: side === "left",
-                }}
-              >
-                {text}
-              </Typography>
-            </Pulse>
+            <Typography
+              className={{
+                [defaultStyle.chatTextRight]: side === "right",
+                [defaultStyle.chatTextLeft]: side === "left",
+              }}
+            >
+              {text}
+            </Typography>
           )}
 
           {children}

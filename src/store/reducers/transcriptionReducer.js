@@ -38,8 +38,8 @@ export default function transcriptionReducer(state = initialState, action) {
         ...state,
         aiRecognizingTranscript: action.payload,
       };
-    case "DECREMENT":
-      return state - 1;
+    case "RESET_REDUCERS":
+      return initialState;
     default:
       return state;
   }

@@ -95,6 +95,13 @@ export default function InitiateWizardCard() {
     });
   };
 
+  const setIsCallInitiated = (flag) => {
+    dispatch({
+      type: "SET_PAGE2_STATE",
+      payload: flag,
+    });
+  };
+
   return (
     <Grid item xs={6} className={classes.root}>
       <Card className={classes.card}>
@@ -185,7 +192,10 @@ export default function InitiateWizardCard() {
         <br />
         <br />
         <Grid item xs={12} container justifyContent="center">
-          <IconButton className={classes.submitButton}>
+          <IconButton
+            className={classes.submitButton}
+            onClick={() => setIsCallInitiated(true)}
+          >
             Start Simulation
           </IconButton>
         </Grid>

@@ -51,7 +51,7 @@ const MuiOverrides = (theme) => ({
       padding: `${pxToRem(10)} ${pxToRem(20)}`,
       margin: 0,
       "&:hover": {
-        backgroundColor: "inherit",
+        backgroundColor: theme.palette.primary.main,
       },
       "&$disabled": {
         color: theme.palette.text.disabled,

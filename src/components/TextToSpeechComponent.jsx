@@ -46,7 +46,7 @@ export default function TextToSpeechComponent() {
 
   const setAITranscript = (transcriptPhrase) => {
     dispatch({
-      type: "SET_CUSTOMER_RECOGNIZED_TRANSCRIPT",
+      type: "SET_AI_RECOGNIZED_TRANSCRIPT",
       payload: transcriptPhrase,
     });
   };
@@ -62,8 +62,9 @@ export default function TextToSpeechComponent() {
           text = `synthesis finished for "${textToSpeak}".\n`;
         } else if (result.reason === speechsdk.ResultReason.Canceled) {
           text = `synthesis failed. Error detail: ${result.errorDetails}.\n`;
+          console.error(text);
         }
-        setAITranscript(text);
+        setAITranscript(textToSpeak);
       },
       function (err) {
         setAITranscript(`Error: ${err}.\n`);

@@ -1,4 +1,6 @@
 const initialState = {
+  onPage2: false,
+  isOnCall: false,
   callState: "incoming",
   customerId: null,
   contactId: null,
@@ -28,6 +30,13 @@ export default function applicationDataReducer(state = initialState, action) {
         ...state,
         isWebSocketConnected: action.payload,
       };
+    case "SET_PAGE2_STATE":
+      return {
+        ...state,
+        onPage2: action.payload,
+      };
+    case "RESET_REDUCERS":
+      return initialState;
     default:
       return state;
   }

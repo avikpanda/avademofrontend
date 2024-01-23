@@ -1,0 +1,118 @@
+import React from "react";
+import {
+  Grid,
+  Button,
+  Card,
+  Stepper,
+  StepLabel,
+  StepContent,
+  Step,
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import { useSelector } from "react-redux";
+
+const useStyles = makeStyles((theme) => ({
+  card: {
+    height: "100%",
+    boxSizing: "border-box",
+    padding: `${theme.typography.pxToRem(20)} ${theme.typography.pxToRem(20)}`,
+  },
+  root: {
+    height: "66.66%",
+    boxSizing: "border-box",
+    padding: `${theme.typography.pxToRem(10)} ${theme.typography.pxToRem(
+      20
+    )} ${theme.typography.pxToRem(30)} ${theme.typography.pxToRem(20)}`,
+  },
+  subtitleContainer: {
+    padding: `0 ${theme.typography.pxToRem(20)}`,
+  },
+  custInfoContainer: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: `0 ${theme.typography.pxToRem(20)}`,
+    marginTop: theme.typography.pxToRem(20),
+  },
+  avatar: {
+    background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+    color: "aliceblue",
+  },
+  hangup: {
+    backgroundColor: theme.palette.primary.main,
+    padding: `${theme.typography.pxToRem(10)} ${theme.typography.pxToRem(30)}`,
+  },
+  title: {
+    marginTop: theme.typography.pxToRem(10),
+    display: "flex",
+    width: "100%",
+  },
+  label: {
+    minWidth: "33.33%",
+  },
+}));
+
+export default function AITouchpoints() {
+  const classes = useStyles();
+
+  const [activeStep, setActiveStep] = React.useState(0);
+  const steps = [
+    "Correspondence Loading",
+    "Correspondence Ready to send",
+    "Correspondence Sent",
+  ];
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+
+  return (
+    <Grid item xs={12} className={classes.root}>
+      <Card className={classes.card}>
+        <Typography variant="h3">AI Touch Points</Typography>
+        <br />
+        <Stepper
+          activeStep={activeStep}
+          orientation="vertical"
+          classes={{ root: classes.stepperRoot }}
+        >
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+              <StepContent>
+                <div className={classes.actionsContainer}>
+                  <div>
+                    <Button
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                      className={classes.button}
+                    >
+                      Back
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleNext}
+                      className={classes.button}
+                    >
+                      {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                    </Button>
+                  </div>
+                </div>
+              </StepContent>
+            </Step>
+          ))}
+        </Stepper>
+      </Card>
+    </Grid>
+  );
+}
