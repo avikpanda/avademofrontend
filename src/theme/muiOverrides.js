@@ -41,28 +41,25 @@ const MuiOverrides = (theme) => ({
   },
   MuiButton: {
     root: {
-      backgroundColor: theme.palette.primary.dark,
+      backgroundColor: theme.palette.primary.main,
       textTransform: "none",
       fontSize: pxToRem(16),
       minWidth: 0,
       border: "0 none",
       borderRadius: pxToRem(8),
       color: theme.palette.common.white,
-      padding: `${pxToRem(8)} ${pxToRem(20)}`,
+      padding: `${pxToRem(10)} ${pxToRem(20)}`,
       margin: 0,
       "&:hover": {
-        backgroundColor: theme.palette.buttonBackground.main,
+        backgroundColor: "inherit",
       },
       "&$disabled": {
         color: theme.palette.text.disabled,
       },
-      "&:not(:first-child)": {
-        marginLeft: theme.typography.pxToRem(25),
-      },
     },
     contained: {
       color: theme.palette.common.white,
-      backgroundColor: theme.palette.primary.dark,
+      backgroundColor: theme.palette.primary.main,
       padding: `${pxToRem(8)} ${pxToRem(20)}`,
       "&:hover": {
         backgroundColor: theme.palette.primary.dark,
@@ -79,6 +76,7 @@ const MuiOverrides = (theme) => ({
     },
     text: {
       padding: 0,
+      backgroundColor: "transparent",
     },
     startIcon: {
       marginLeft: 0,
@@ -113,7 +111,7 @@ const MuiOverrides = (theme) => ({
   MuiSelect: {
     nativeInput: {
       border: pxToRem(0),
-      padding: pxToRem(0),
+      padding: pxToRem(10),
       margin: pxToRem(0),
       height: pxToRem(37),
     },
