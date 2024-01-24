@@ -120,6 +120,11 @@ const MuiOverrides = (theme) => ({
       marginRight: pxToRem(12),
     },
   },
+  MuiStepIcon: {
+    root: {},
+    text: {},
+  },
+
   MuiPaper: {
     rounded: {
       borderRadius: pxToRem(12),

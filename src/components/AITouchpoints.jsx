@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import {
   Grid,
-  Button,
   Card,
   Stepper,
   StepLabel,
@@ -65,27 +64,17 @@ export default function AITouchpoints() {
   const classes = useStyles();
 
   const [activeStep, setActiveStep] = React.useState(0);
+  const [isManualOpen, setIsManualOpen] = React.useState(false);
 
   const steps = useSelector((state) => state.aiTouchpointsReducer?.data);
 
   useEffect(() => {
+    setIsManualOpen(false);
     setActiveStep(steps?.length - 1);
     setTimeout(() => {
       setActiveStep(steps?.length);
     }, 3000);
   }, [steps]);
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
 
   const updateScroll = () => {
     const element = document.getElementById("stepperScroll");
@@ -108,11 +97,20 @@ export default function AITouchpoints() {
             classes={{ root: classes.stepperRoot }}
           >
             {steps?.map((label, key) => (
-              <Step key={label} onClick={() => setActiveStep(key)}>
+              <Step
+                key={label}
+                onClick={() => {
+                  setActiveStep(key);
+                  setIsManualOpen(true);
+                }}
+              >
                 <StepLabel>{label}</StepLabel>
                 <StepContent>
                   <div className={classes.actionsContainer}>
-                    <AIStepperComponent />
+                    <AIStepperComponent
+                      type={label}
+                      isManualOpen={isManualOpen}
+                    />
                   </div>
                 </StepContent>
               </Step>

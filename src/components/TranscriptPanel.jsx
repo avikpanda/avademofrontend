@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
-import { Grid, Button, Card } from "@material-ui/core";
+import { Grid, Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Avatar from "@material-ui/core/Avatar";
 import { useSelector } from "react-redux";
 import SpeechToTextComponent from "./SpeechToTextComponent";
 import TextToSpeechComponent from "./TextToSpeechComponent";

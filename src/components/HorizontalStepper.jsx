@@ -58,15 +58,15 @@ const useColorlibStepIconStyles = makeStyles({
   },
   "@keyframes active": {
     "0%": {
-      boxShadow: `0 0 0 0 rgba(252, 117, 0)`
+      boxShadow: `0 0 0 0 rgba(252, 117, 0)`,
     },
     "50%": {
-      boxShadow: `0 0 0 1rem} rgba(252, 117, 0, 0.2)`
+      boxShadow: `0 0 0 1rem rgba(252, 117, 0, 0.2)`,
     },
     "100%": {
-      boxShadow: "0 0 0 0 rgba(252, 117, 0, 0.01)"
-    }
-  }
+      boxShadow: "0 0 0 0 rgba(252, 117, 0, 0.01)",
+    },
+  },
 });
 
 function ColorlibStepIcon({ active, completed, icon }) {

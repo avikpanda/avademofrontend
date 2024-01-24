@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Snackbar from "@material-ui/core/Snackbar";
-import Grow from "@material-ui/core/Grow";
 import SockJsClient from "react-stomp";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -155,6 +154,12 @@ function App() {
     }
   };
 
+  // handleAIFunctionCall("INVOICE_COPY");
+  // handleAIFunctionCall("ACCOUNT_STATEMENT");
+  // handleAIFunctionCall("PAYMENT_LINK");
+  // handleAIFunctionCall("PAYMENT_COMMITTMENT");
+  // handleAIFunctionCall("CALL_TRANSFER");
+
   const handleAIMessage = (msg) => {
     switch (msg.responseType) {
       case "CHAT_RESPONSE":
@@ -185,9 +190,6 @@ function App() {
     });
   };
 
-  function GrowTransition(props) {
-    return <Grow {...props} />;
-  }
   return (
     <>
       <SockJsClient

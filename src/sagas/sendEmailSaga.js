@@ -3,8 +3,8 @@ import axios from "axios";
 
 export function* sendEmailWorker(action) {
   try {
-    const { customerName } = yield select(
-      (state) => state.applicationDataReducer.customer
+    const customerName = yield select(
+      (state) => state.applicationDataReducer?.customer?.customerName
     );
 
     const bodyFormData = new FormData();

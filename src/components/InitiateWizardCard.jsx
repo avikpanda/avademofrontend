@@ -89,9 +89,6 @@ export default function InitiateWizardCard() {
   const callState = useSelector(
     (state) => state.applicationDataReducer.callState
   );
-  const customerId = useSelector(
-    (state) => state.applicationDataReducer.customerId
-  );
 
   const setIsIncomingFlow = (selectedCallType) => {
     dispatch({
@@ -113,20 +110,6 @@ export default function InitiateWizardCard() {
     dispatch({
       type: "SET_CUSTOMER_ID",
       payload: customerId,
-    });
-  };
-
-  const setContactId = (contactId) => {
-    dispatch({
-      type: "SET_CONTACT_ID",
-      payload: contactId,
-    });
-  };
-
-  const setIsCallInitiated = (flag) => {
-    dispatch({
-      type: "SET_PAGE2_STATE",
-      payload: flag,
     });
   };
 

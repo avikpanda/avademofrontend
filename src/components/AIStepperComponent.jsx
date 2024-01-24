@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Stepper from "@material-ui/core/Stepper";
@@ -7,7 +6,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import StorageRoundedIcon from "@material-ui/icons/StorageRounded";
-import DialerSipRoundedIcon from "@material-ui/icons/DialerSipRounded";
+import CheckCircleOutlineRoundedIcon from "@material-ui/icons/CheckCircleOutlineRounded";
 import StepConnector from "@material-ui/core/StepConnector";
 
 const ColorlibConnector = withStyles({
@@ -34,15 +33,15 @@ const ColorlibConnector = withStyles({
   },
   "@keyframes active": {
     "0%": {
-      boxShadow: `0 0 0 0 rgba(252, 117, 0)`
+      boxShadow: `0 0 0 0 rgba(252, 117, 0)`,
     },
     "50%": {
-      boxShadow: `0 0 0 1rem rgba(252, 117, 0, 0.2)`
+      boxShadow: `0 0 0 1rem rgba(252, 117, 0, 0.2)`,
     },
     "100%": {
-      boxShadow: "0 0 0 0 rgba(252, 117, 0, 0.01)"
-    }
-  }
+      boxShadow: "0 0 0 0 rgba(252, 117, 0, 0.01)",
+    },
+  },
 })(StepConnector);
 
 const useColorlibStepIconStyles = makeStyles({
@@ -69,15 +68,15 @@ const useColorlibStepIconStyles = makeStyles({
   },
   "@keyframes active": {
     "0%": {
-      boxShadow: `0 0 0 0 rgba(252, 117, 0)`
+      boxShadow: `0 0 0 0 rgba(252, 117, 0)`,
     },
     "50%": {
-      boxShadow: `0 0 0 1rem rgba(252, 117, 0, 0.2)`
+      boxShadow: `0 0 0 1rem rgba(252, 117, 0, 0.2)`,
     },
     "100%": {
-      boxShadow: "0 0 0 0 rgba(252, 117, 0, 0.01)"
+      boxShadow: "0 0 0 0 rgba(252, 117, 0, 0.01)",
     },
-  }
+  },
 });
 
 function ColorlibStepIcon({ active, completed, icon }) {
@@ -86,7 +85,7 @@ function ColorlibStepIcon({ active, completed, icon }) {
   const icons = {
     1: <SearchRoundedIcon />,
     2: <StorageRoundedIcon />,
-    3: <DialerSipRoundedIcon />,
+    3: <CheckCircleOutlineRoundedIcon />,
   };
 
   return (
@@ -116,38 +115,61 @@ const useStyles = makeStyles((theme) => ({
 
 function getSteps(type) {
   switch (type) {
-    case "true":
+    case "Customer Asked for Invoice Copy":
       return [
-        "Identifying the Contact",
-        "Searching for the Customer & setting up Context",
-        "Taking up the Call",
+        "Looking for Invoice Copy Template",
+        "Sending the Email for Processing",
+        "Invoice Copy Sent",
+      ];
+    case "Customer requires Account Statement":
+      return [
+        "Looking for Account Statement Template",
+        "Sending the Email for Processing",
+        "Account Statement Sent",
+      ];
+    case "Need to Send Payment Link":
+      return [
+        "Identifying the Required Template",
+        "Sending the Email for Processing",
+        "Payment link sent with Invoice Details.",
+      ];
+    case "Customer wants a P2P to be created":
+      return [
+        "Identifying the Invoice to create P2P",
+        "Processing P2P",
+        "P2P Created Successfully",
+      ];
+    case "Transferring the call to a Specialist":
+      return [
+        "Identifying the right person for this job",
+        "Making a Transfer Request to Ayush Kumar",
+        "Call was Transferred",
       ];
     default:
-      return [
-        "Finding a Suitable Customer",
-        "Fetching the Context for the Customer",
-        "Placing the Call",
-      ];
+      return ["", "", ""];
   }
 }
 
-export default function AIStepperComponent({ type }) {
+export default function AIStepperComponent({ type, isManualOpen }) {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const [activeStep, setActiveStep] = React.useState(null);
 
   const steps = getSteps(type);
 
   useEffect(() => {
     let intervalId;
-    intervalId = setInterval(() => {
-      setActiveStep((prevStep) => {
-        if (prevStep === null) return 0;
-        return prevStep + 1;
-      });
-    }, 1000);
+    if (!isManualOpen) {
+      intervalId = setInterval(() => {
+        setActiveStep((prevStep) => {
+          if (prevStep === null) return 0;
+          return prevStep + 1;
+        });
+      }, 1250);
+    } else {
+      setActiveStep(2);
+    }
     return () => clearInterval(intervalId);
-  }, []);
+  }, [isManualOpen]);
 
   return (
     <div className={classes.root}>
