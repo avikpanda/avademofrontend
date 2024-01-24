@@ -106,7 +106,7 @@ export default function ContactInfo() {
           </Typography>
           <Typography className={classes.title} color="textSecondary">
             <div className={classes.label}>Mobile :</div>
-            +91 000-000-0000
+            +91 986-166-4662
           </Typography>
           <Typography className={classes.title} color="textSecondary">
             <div className={classes.label}>Email :</div>

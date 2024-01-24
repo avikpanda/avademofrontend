@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    padding: `0 ${theme.typography.pxToRem(20)}`,
   },
   avatar: {
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
@@ -43,11 +42,38 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AccountInfo() {
   const classes = useStyles();
+
+  const customerData = useSelector(
+    (state) => state.applicationDataReducer.customer
+  );
+
   return (
     <Grid item xs={6} className={classes.root}>
       <Card className={classes.card}>
         <Typography variant="h3">Account Context</Typography>
         <br />
+        <div className={classes.custInfoContainer}>
+          <Typography className={classes.title} color="textSecondary">
+            <div className={classes.label}>Customer Name :</div>
+            {customerData?.customerName}
+          </Typography>
+          <Typography className={classes.title} color="textSecondary">
+            <div className={classes.label}>Customer Number :</div>
+            {customerData?.customerNumber}
+          </Typography>
+          <Typography className={classes.title} color="textSecondary">
+            <div className={classes.label}>Open Invoices :</div>
+            {customerData?.openInvoices}
+          </Typography>
+          <Typography className={classes.title} color="textSecondary">
+            <div className={classes.label}>Last Call Summary :</div>
+            {customerData?.lastCallSummary}
+          </Typography>
+          <Typography className={classes.title} color="textSecondary">
+            <div className={classes.label}>Customer Status :</div>
+            {customerData?.status}
+          </Typography>
+        </div>
       </Card>
     </Grid>
   );

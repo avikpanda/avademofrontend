@@ -52,7 +52,7 @@ export default function SpeechToTextComponent({
         console.log("isWebSocketConnected", isWebSocketConnected, transcript);
         if (isWebSocketConnected)
           client.sendMessage(
-            "/app/user-all",
+            "/process-speech",
             JSON.stringify({
               message: transcript,
             })

@@ -181,7 +181,7 @@ export default function InitiateWizardCard() {
             <em>None</em>
           </MenuItem>
           {customerData.map((item) => (
-            <MenuItem key={item.customerId} value={item.customerId}>
+            <MenuItem key={item.customerId} value={item}>
               {item.customerName}
             </MenuItem>
           ))}

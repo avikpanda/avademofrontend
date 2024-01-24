@@ -2,6 +2,11 @@ const data = [
   {
     customerId: 123,
     customerName: "Customer X",
+    customerNumber: "2356734",
+    openInvoices: "64785, 34567, 88995",
+    lastCallSummary:
+      "Discussed about open invoices. Abhijeet Dey made a Payment Commitment of USD 3,600",
+    status: "Escalated",
     contacts: [
       {
         id: 1,
