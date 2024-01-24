@@ -4,6 +4,7 @@ const initialState = {
   isSimulationStarted: false,
   customer: null,
   contact: null,
+  scenario: null,
   isWebSocketConnected: false,
   isAIResponseInProgress: false,
 };
@@ -44,6 +45,11 @@ export default function applicationDataReducer(state = initialState, action) {
       return {
         ...state,
         isAIResponseInProgress: action.payload,
+      };
+    case "SET_SCENARIO":
+      return {
+        ...state,
+        scenario: action.payload,
       };
     case "RESET_REDUCERS":
       return initialState;

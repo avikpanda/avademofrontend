@@ -67,6 +67,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const scenarios = [
+  {
+    id: 1,
+    name: "OverDue and Payment Reminders",
+  },
+  {
+    id: 2,
+    name: "Broken Payment Commitment Reminder",
+  },
+  {
+    id: 3,
+    name: "Upcoming P2P Reminder",
+  },
+];
+
 export default function InitiateWizardCard() {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -103,6 +118,13 @@ export default function InitiateWizardCard() {
     dispatch({
       type: "SET_PAGE2_STATE",
       payload: flag,
+    });
+  };
+
+  const setScenario = (id) => {
+    dispatch({
+      type: "SET_SCENARIO",
+      payload: id,
     });
   };
 
@@ -160,32 +182,45 @@ export default function InitiateWizardCard() {
         </Button>
         <br />
         <br />
-        <Typography
-          variant="body1"
-          className={clsx({ [classes.hide]: callState === "outgoing" })}
-        >
-          Pick a Customer:
+        <Typography variant="body1">
+          {callState === "incoming" ? "Pick a Customer:" : "Pick a Scenario:"}
         </Typography>
         <br />
-        <Select
-          variant="outlined"
-          className={clsx({
-            [classes.hide]: callState === "outgoing",
-            [classes.selectCustomer]: true,
-          })}
-          onChange={(event) => {
-            setCustomerId(event.target.value);
-          }}
-        >
-          <MenuItem value={{}}>
-            <em>None</em>
-          </MenuItem>
-          {customerData.map((item) => (
-            <MenuItem key={item.customerId} value={item}>
-              {item.customerName}
+        {callState === "incoming" ? (
+          <Select
+            variant="outlined"
+            className={classes.selectCustomer}
+            onChange={(event) => {
+              setCustomerId(event.target.value);
+            }}
+          >
+            <MenuItem value={{}}>
+              <em>None</em>
             </MenuItem>
-          ))}
-        </Select>
+            {customerData.map((item) => (
+              <MenuItem key={item.customerId} value={item}>
+                {item.customerName}
+              </MenuItem>
+            ))}
+          </Select>
+        ) : (
+          <Select
+            variant="outlined"
+            className={classes.selectCustomer}
+            onChange={(event) => {
+              setScenario(event.target.value);
+            }}
+          >
+            <MenuItem value={{}}>
+              <em>None</em>
+            </MenuItem>
+            {scenarios.map((item) => (
+              <MenuItem key={item.id} value={item.id}>
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        )}
         <br />
         <HorizontalStepper />
         <br />

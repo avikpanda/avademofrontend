@@ -19,6 +19,12 @@ function App() {
   const isWebSocketConnected = useSelector(
     (state) => state.applicationDataReducer.isWebSocketConnected
   );
+  const customerId = useSelector(
+    (state) => state.applicationDataReducer.customer?.customerId
+  );
+  const scenarioId = useSelector(
+    (state) => state.applicationDataReducer.scenarioId
+  );
 
   const setWebSocketConnectionStatus = (flag) => {
     dispatch({
@@ -41,10 +47,17 @@ function App() {
         payload: currentAnswer,
       });
       if (isWebSocketConnected) {
+        let initialContext = "";
+        if (callState === "incoming") {
+          initialContext = `IN-${customerId}`;
+        } else {
+          initialContext = `OUT${scenarioId}`;
+        }
+
         SockClient.current.sendMessage(
           "/push-system-context",
           JSON.stringify({
-            currentAnswer,
+            initialContext,
           })
         );
         SockClient.current.sendMessage(
@@ -60,7 +73,7 @@ function App() {
   const handleAIFunctionCall = (functionType) => {
     const invoiceCopyAnswer = "Sure! Sending you the invoice copy right away.";
     const accountStatementAnswer =
-      "Done! I have sent you the account statement. You can go ahead and verify.";
+      "Alright! I will sent you the account statement. Is there anything else I can help you with?";
     const paymentLinkAnswer =
       "I have sent you the payment link over the email. You can click on the link and make your payment.";
     const p2pAnswer = "Sure I will create a P2P for you.";
@@ -97,7 +110,7 @@ function App() {
       case "CALL_TRANSFER":
         dispatch({
           type: "ADD_AI_TOUCHPOINT",
-          payload: functionType,
+          payload: "Transferring the call to a Specialist",
         });
         currentAnswer =
           "Sorry! I am not authorized to perform this action. I will transfer this call to a specialist to help you resolve your concern.";
@@ -137,7 +150,7 @@ function App() {
         break;
       case "FUNCTION_CALL":
         handleAIFunctionCall(msg.response);
-        return;
+        break;
       default:
         dispatch({
           type: "SET_AI_RECOGNIZING_TRANSCRIPT",
