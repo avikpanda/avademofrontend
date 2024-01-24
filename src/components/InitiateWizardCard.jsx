@@ -57,8 +57,8 @@ const useStyles = makeStyles((theme) => ({
     width: theme.typography.pxToRem(350),
   },
   submitButton: {
-    width: theme.typography.pxToRem(180),
-    height: theme.typography.pxToRem(180),
+    width: theme.typography.pxToRem(170),
+    height: theme.typography.pxToRem(170),
     borderRadius: "50%",
     border: "4px solid rgba(97, 111, 128, 1)",
   },
@@ -177,7 +177,7 @@ export default function InitiateWizardCard() {
             setCustomerId(event.target.value);
           }}
         >
-          <MenuItem value={null}>
+          <MenuItem value={{}}>
             <em>None</em>
           </MenuItem>
           {customerData.map((item) => (
@@ -188,8 +188,6 @@ export default function InitiateWizardCard() {
         </Select>
         <br />
         <HorizontalStepper />
-        <br />
-        <br />
         <Grid item xs={12} container justifyContent="center">
           <IconButton
             className={classes.submitButton}

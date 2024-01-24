@@ -116,7 +116,7 @@ const MuiOverrides = (theme) => ({
       height: pxToRem(37),
     },
     icon: {
-      top: pxToRem(8),
+      top: pxToRem(18),
       marginRight: pxToRem(12),
     },
   },
