@@ -1,10 +1,12 @@
-import SockJsClient from "react-stomp";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Snackbar from "@material-ui/core/Snackbar";
+import Grow from '@material-ui/core/Grow';
+import SockJsClient from "react-stomp";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import Home from "./views/Home";
 import Call from "./views/Call";
+import Home from "./views/Home";
 
 function App() {
   const SockClient = React.useRef(null);
@@ -163,6 +165,9 @@ function App() {
     });
   };
 
+  function GrowTransition(props) {
+    return <Grow {...props} />;
+  }
   return (
     <>
       <SockJsClient
@@ -196,6 +201,12 @@ function App() {
         <Home />
       )}
       <Footer />
+      <Snackbar
+        open={!isWebSocketConnected}
+        onClose={()=>{}}
+        message="Connection Lost... ❌"
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      />
     </>
   );
 }
