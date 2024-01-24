@@ -55,6 +55,18 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
     updateScroll();
   }, [transcriptData]);
 
+  useEffect(() => {
+    if (!isSimulationStarted && isWebSocketConnected) {
+      const currentAnswer = "Please Summarize the above chat.";
+      client.sendMessage(
+        "/process-speech",
+        JSON.stringify({
+          currentAnswer,
+        })
+      );
+    }
+  }, [isSimulationStarted]);
+
   return (
     <Grid item xs={12} className={classes.root}>
       <Card className={classes.card}>

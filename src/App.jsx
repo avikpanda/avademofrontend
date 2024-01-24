@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Snackbar from "@material-ui/core/Snackbar";
-import Grow from '@material-ui/core/Grow';
+import Grow from "@material-ui/core/Grow";
 import SockJsClient from "react-stomp";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -80,6 +80,7 @@ function App() {
       "I have sent you the payment link over the email. You can click on the link and make your payment.";
     const p2pAnswer = "Sure I will create a P2P for you.";
     let currentAnswer;
+    let emailType;
     switch (functionType) {
       case "INVOICE_COPY":
         dispatch({
@@ -87,6 +88,7 @@ function App() {
           payload: "Customer Asked for Invoice Copy",
         });
         currentAnswer = invoiceCopyAnswer;
+        emailType = "INVOICE_COPY";
         break;
       case "ACCOUNT_STATEMENT":
         dispatch({
@@ -94,6 +96,7 @@ function App() {
           payload: "Customer requires Account Statement",
         });
         currentAnswer = accountStatementAnswer;
+        emailType = "ACCOUNT_STATEMENT";
         break;
       case "PAYMENT_LINK":
         dispatch({
@@ -101,6 +104,7 @@ function App() {
           payload: "Need to Send Payment Link",
         });
         currentAnswer = paymentLinkAnswer;
+        emailType = "INVOICE_COPY";
         break;
       case "PAYMENT_COMMITTMENT":
         dispatch({
@@ -121,17 +125,26 @@ function App() {
         currentAnswer = "Have a great day!";
         setTimeout(() => {
           dispatch({
-            type: "RESET_REDUCERS",
+            type: "SET_SIMULATION_STARTED",
+            payload: false,
           });
         }, 2000);
         break;
       default:
         break;
     }
-    dispatch({
-      type: "SET_AI_RECOGNIZING_TRANSCRIPT",
-      payload: currentAnswer,
-    });
+    if (emailType) {
+      dispatch({
+        type: "SEND_EMAIL",
+        payload: emailType,
+      });
+    }
+    if (currentAnswer) {
+      dispatch({
+        type: "SET_AI_RECOGNIZING_TRANSCRIPT",
+        payload: currentAnswer,
+      });
+    }
     if (isWebSocketConnected) {
       SockClient.current.sendMessage(
         "/push-chat-history",
@@ -145,6 +158,13 @@ function App() {
   const handleAIMessage = (msg) => {
     switch (msg.responseType) {
       case "CHAT_RESPONSE":
+        if (!isSimulationStarted) {
+          dispatch({
+            type: "SEND_EMAIL",
+            payload: "CALL_SUMMARY",
+            callSummary: msg.response,
+          });
+        }
         dispatch({
           type: "SET_AI_RECOGNIZING_TRANSCRIPT",
           payload: msg.response,
@@ -203,7 +223,7 @@ function App() {
       <Footer />
       <Snackbar
         open={!isWebSocketConnected}
-        onClose={()=>{}}
+        onClose={() => {}}
         message="Connection Lost... ❌"
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       />

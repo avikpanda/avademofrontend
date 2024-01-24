@@ -7,6 +7,7 @@ const initialState = {
   scenario: null,
   isWebSocketConnected: false,
   isAIResponseInProgress: false,
+  callSummary: "",
 };
 
 export default function applicationDataReducer(state = initialState, action) {

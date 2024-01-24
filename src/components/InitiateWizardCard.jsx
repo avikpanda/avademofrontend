@@ -98,6 +98,15 @@ export default function InitiateWizardCard() {
       type: "SET_CALL_TYPE",
       payload: selectedCallType,
     });
+    let newCustomer;
+    const newScenario = null;
+    if (selectedCallType === "outgoing") {
+      newCustomer = customerData[0];
+    } else {
+      newCustomer = {};
+    }
+    setCustomerId(newCustomer);
+    setScenario(newScenario);
   };
 
   const setCustomerId = (customerId) => {
