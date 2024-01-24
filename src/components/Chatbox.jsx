@@ -7,28 +7,8 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.typography.pxToRem(8),
     paddingRight: theme.typography.pxToRem(8),
     minHeight: "1rem",
-    marginTop: theme.typography.pxToRem(20),
-    marginBottom: theme.typography.pxToRem(20),
     overflow: "hidden",
-  },
-
-  chatTextLeft: {
-    fontSize: theme.typography.pxToRem(20),
-    color: theme.palette.text.primary,
-    width: "inherit",
-    wordBreak: "break-word",
-  },
-  chatTextRight: {
-    fontSize: theme.typography.pxToRem(20),
-    textAlign: "right",
-    color: theme.palette.text.secondary,
-    wordBreak: "break-word",
-  },
-  clickable: {
-    cursor: "pointer",
-  },
-  unselectable: {
-    userSelect: "none",
+    marginTop: theme.typography.pxToRem(10),
   },
   left: {
     maxWidth: "99%",
@@ -37,8 +17,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottomLeftRadius: theme.typography.pxToRem(10),
     marginTop: theme.typography.pxToRem(10),
     backgroundColor: theme.palette.background.level3,
-    padding: theme.typography.pxToRem(15),
-    paddingRight: theme.typography.pxToRem(22),
+    padding: `${theme.typography.pxToRem(5)} ${theme.typography.pxToRem(10)}`,
     display: "inline-block",
     border: "1px solid rgba(162, 169, 176, 1)",
   },
@@ -49,17 +28,9 @@ const useStyles = makeStyles((theme) => ({
     borderBottomRightRadius: theme.typography.pxToRem(10),
     marginTop: theme.typography.pxToRem(10),
     backgroundColor: theme.palette.background.level2,
-    padding: theme.typography.pxToRem(15),
-    paddingLeft: theme.typography.pxToRem(22),
+    padding: `${theme.typography.pxToRem(5)} ${theme.typography.pxToRem(10)}`,
     display: "inline-block",
     border: "1px solid rgba(162, 169, 176, 1)",
-  },
-
-  avatar: {
-    height: theme.typography.pxToRem(30),
-    width: theme.typography.pxToRem(30),
-    borderRadius: "50%",
-    fontSize: theme.typography.pxToRem(14),
   },
   stringAvatarChild: {
     backgroundColor: theme.palette.background.level1,
@@ -76,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
   avatarTitle: {
     textTransform: "uppercase",
-    fontSize: theme.typography.pxToRem(14),
+    fontSize: theme.typography.pxToRem(12),
     color: theme.palette.text.primary,
     marginLeft: ({ side }) => side === "left" && theme.typography.pxToRem(7),
     marginRight: ({ side }) => side === "right" && theme.typography.pxToRem(7),
@@ -92,6 +63,16 @@ const useStyles = makeStyles((theme) => ({
   timestamp: {
     fontSize: theme.typography.pxToRem(14),
     color: theme.palette.text.disabled,
+  },
+  avatarRoot: {
+    width: theme.typography.pxToRem(40),
+    height: theme.typography.pxToRem(40),
+  },
+  avatarColor: {
+    backgroundColor: ({ side }) =>
+      side === "right"
+        ? theme.palette.primary.main
+        : theme.palette.secondary.main,
   },
 }));
 const timestampFormatter = (datetime) =>
@@ -134,19 +115,20 @@ const Chatbox = (props) => {
           alignItems="center"
         >
           <Avatar
-            className={
-              (defaultStyle.avatar,
-              {
-                [defaultStyle.stringAvatarChild]:
-                  !avatarSrc && stringAvatarChildren,
-                [defaultStyle.elementAvatarChild]:
-                  !avatarSrc && !stringAvatarChildren,
-              })
-            }
+            className={{
+              [defaultStyle.stringAvatarChild]:
+                !avatarSrc && stringAvatarChildren,
+              [defaultStyle.elementAvatarChild]:
+                !avatarSrc && !stringAvatarChildren,
+            }}
+            classes={{
+              root: defaultStyle.avatarRoot,
+              colorDefault: defaultStyle.avatarColor,
+            }}
             src={avatarSrc}
             {...avatarProps}
           >
-            {avatarChildren}
+            {avatarTitle}
           </Avatar>
 
           {avatarTitle && (
@@ -166,16 +148,7 @@ const Chatbox = (props) => {
           )}
         </Grid>
         <Grid item className={defaultStyle[side]}>
-          {text && (
-            <Typography
-              className={{
-                [defaultStyle.chatTextRight]: side === "right",
-                [defaultStyle.chatTextLeft]: side === "left",
-              }}
-            >
-              {text}
-            </Typography>
-          )}
+          {text && <Typography>{text}</Typography>}
 
           {children}
         </Grid>

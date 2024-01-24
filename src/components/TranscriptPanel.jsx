@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import SpeechToTextComponent from "./SpeechToTextComponent";
 import TextToSpeechComponent from "./TextToSpeechComponent";
 import Chatbox from "./Chatbox";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -21,7 +22,13 @@ const useStyles = makeStyles((theme) => ({
       20
     )} ${theme.typography.pxToRem(30)} 0`,
   },
-  chatContainer: {},
+  chatContainer: {
+    height: `calc(100% - ${theme.typography.pxToRem(60)})`,
+    overflow: "scroll",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+  },
 }));
 
 export default function TranscriptPanel({ client, isWebSocketConnected }) {
@@ -31,25 +38,29 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
     (state) => state.transcriptionReducer.data
   );
 
+  const updateScroll = () => {
+    const element = document.getElementById("scroll");
+    element.scrollTop = element.scrollHeight;
+  };
+
+  useEffect(() => {
+    updateScroll();
+  }, [transcriptData]);
+
   return (
     <Grid item xs={12} className={classes.root}>
       <Card className={classes.card}>
         <Typography variant="h3">Call Transcript</Typography>
         <br />
-        <div className={classes.chatContainer}>
+        <div id="scroll" className={classes.chatContainer}>
           {transcriptData?.map(
             (transcript) =>
               transcript?.text?.trim().length > 0 && (
                 <Chatbox
                   side={transcript.type == "customer" ? "left" : "right"}
-                  avatarTitle={transcript.type}
+                  avatarTitle={transcript.type == "ai" ? "AI" : "C"}
                   timestamp={new Date()}
                   key={transcript?.text}
-                  avatarChildren={
-                    <Avatar aria-label="recipe" className={classes.avatar}>
-                      {transcript?.type == "ai" ? "AI" : "C"}
-                    </Avatar>
-                  }
                   text={transcript?.text}
                 />
               )
