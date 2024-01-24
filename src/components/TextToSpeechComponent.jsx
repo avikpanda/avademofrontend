@@ -64,7 +64,9 @@ export default function TextToSpeechComponent() {
           text = `synthesis failed. Error detail: ${result.errorDetails}.\n`;
           console.error(text);
         }
-        setAITranscript(textToSpeak);
+        setTimeout(() => {
+          setAITranscript(textToSpeak);
+        }, 1000);
       },
       function (err) {
         setAITranscript(`Error: ${err}.\n`);

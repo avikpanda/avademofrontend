@@ -9,6 +9,9 @@ import Call from "./views/Call";
 function App() {
   const SockClient = React.useRef(null);
   const dispatch = useDispatch();
+  const callState = useSelector(
+    (state) => state.applicationDataReducer.callState
+  );
   const onPage2 = useSelector((state) => state.applicationDataReducer.onPage2);
   const isSimulationStarted = useSelector(
     (state) => state.applicationDataReducer.isSimulationStarted
@@ -30,12 +33,20 @@ function App() {
     }
     if (isSimulationStarted) {
       const currentAnswer =
-        "Hi! This is Ava from Highradius. How can I help you today?";
+        callState === "incoming"
+          ? "Hi, This is Ava from Highradius. How can I help you today?"
+          : "Hey there, I am Ava from HighRadius. Is this the right time to talk?";
       dispatch({
         type: "SET_AI_RECOGNIZING_TRANSCRIPT",
         payload: currentAnswer,
       });
       if (isWebSocketConnected) {
+        SockClient.current.sendMessage(
+          "/push-system-context",
+          JSON.stringify({
+            currentAnswer,
+          })
+        );
         SockClient.current.sendMessage(
           "/push-chat-history",
           JSON.stringify({
@@ -90,6 +101,14 @@ function App() {
         });
         currentAnswer =
           "Sorry! I am not authorized to perform this action. I will transfer this call to a specialist to help you resolve your concern.";
+        break;
+      case "END_OF_CALL":
+        currentAnswer = "Have a great day!";
+        setTimeout(() => {
+          dispatch({
+            type: "RESET_REDUCERS",
+          });
+        }, 2000);
         break;
       default:
         break;
