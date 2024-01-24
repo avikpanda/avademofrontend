@@ -7,13 +7,12 @@ export function* sendEmailWorker(action) {
       (state) => state.applicationDataReducer.customer
     );
 
-    yield call(
-      axios.post("http://localhost:8080/send-email", {
-        templateType: action.payload,
-        customerName: customerName,
-        callSummary: action?.callSummary ?? "",
-      })
-    );
+    const bodyFormData = new FormData();
+    bodyFormData.append("templateType", action.payload);
+    bodyFormData.append("customerName", customerName);
+    bodyFormData.append("callSummary", action?.callSummary ?? "");
+
+    yield call(axios.post, "http://localhost:8080/send-email", bodyFormData);
   } catch (e) {
     console.error("Error occured in send email sagas", e);
     yield put({ type: "SEND_EMAIL_ERROR" });
