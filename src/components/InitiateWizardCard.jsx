@@ -188,6 +188,8 @@ export default function InitiateWizardCard() {
         </Select>
         <br />
         <HorizontalStepper />
+        <br />
+        <br />
         <Grid item xs={12} container justifyContent="center">
           <IconButton
             className={classes.submitButton}

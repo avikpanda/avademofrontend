@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     "&::-webkit-scrollbar": {
       display: "none",
     },
-  }
+  },
 }));
 
 export default function AITouchpoints() {
@@ -66,7 +66,7 @@ export default function AITouchpoints() {
 
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const steps = useSelector(state => state.aiTouchpointsReducer?.data);
+  const steps = useSelector((state) => state.aiTouchpointsReducer?.data);
 
   useEffect(() => {
     setActiveStep(steps?.length - 1);
@@ -107,8 +107,8 @@ export default function AITouchpoints() {
             orientation="vertical"
             classes={{ root: classes.stepperRoot }}
           >
-            {steps?.map((label) => (
-              <Step key={label}>
+            {steps?.map((label, key) => (
+              <Step key={label} onClick={() => setActiveStep(key)}>
                 <StepLabel>{label}</StepLabel>
                 <StepContent>
                   <div className={classes.actionsContainer}>
