@@ -9,7 +9,10 @@ import Call from "./views/Call";
 function App() {
   const SockClient = React.useRef(null);
   const dispatch = useDispatch();
-
+  const onPage2 = useSelector((state) => state.applicationDataReducer.onPage2);
+  const isSimulationStarted = useSelector(
+    (state) => state.applicationDataReducer.isSimulationStarted
+  );
   const isWebSocketConnected = useSelector(
     (state) => state.applicationDataReducer.isWebSocketConnected
   );
@@ -42,11 +45,6 @@ function App() {
       }
     }
   }, [isSimulationStarted]);
-
-  const onPage2 = useSelector((state) => state.applicationDataReducer.onPage2);
-  const isSimulationStarted = useSelector(
-    (state) => state.applicationDataReducer.isSimulationStarted
-  );
 
   const handleAIFunctionCall = (functionType) => {
     const invoiceCopyAnswer = "Sure! Sending you the invoice copy right away.";
