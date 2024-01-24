@@ -50,11 +50,23 @@ const useColorlibStepIconStyles = makeStyles({
     backgroundImage:
       "linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)",
     boxShadow: "0 4px 10px 0 rgba(0,0,0,.25)",
+    animation: "$active 2s",
   },
   completed: {
     backgroundImage:
       "linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)",
   },
+  "@keyframes active": {
+    "0%": {
+      boxShadow: `0 0 0 0 rgba(252, 117, 0)`
+    },
+    "50%": {
+      boxShadow: `0 0 0 1rem} rgba(252, 117, 0, 0.2)`
+    },
+    "100%": {
+      boxShadow: "0 0 0 0 rgba(252, 117, 0, 0.01)"
+    }
+  }
 });
 
 function ColorlibStepIcon({ active, completed, icon }) {
