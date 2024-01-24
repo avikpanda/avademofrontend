@@ -22,7 +22,7 @@ export default function Call({ client, isWebSocketConnected }) {
 
   return (
     <Grid container justifyContent="center" className={classes.root}>
-      <Grid container justifyContent="center" item xs={8}>
+      <Grid container justifyContent="center" item xs={8} className={classes.wrapper}>
         <ContactInfo />
         <AccountInfo />
         <AITouchpoints />

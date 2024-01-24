@@ -52,6 +52,13 @@ const useStyles = makeStyles((theme) => ({
   label: {
     minWidth: "33.33%",
   },
+  stepperContainer: {
+    height: `calc(100% - ${theme.typography.pxToRem(60)})`,
+    overflow: "scroll",
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
+  }
 }));
 
 export default function AITouchpoints() {
@@ -59,7 +66,7 @@ export default function AITouchpoints() {
 
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const steps = useSelector((state) => state.aiTouchpointsReducer?.data);
+  const steps = useSelector(state => state.aiTouchpointsReducer?.data);
 
   useEffect(() => {
     setActiveStep(steps?.length - 1);
@@ -80,27 +87,38 @@ export default function AITouchpoints() {
     setActiveStep(0);
   };
 
+  const updateScroll = () => {
+    const element = document.getElementById("stepperScroll");
+    element.scrollTop = element.scrollHeight;
+  };
+
+  useEffect(() => {
+    updateScroll();
+  }, [steps]);
+
   return (
     <Grid item xs={12} className={classes.root}>
       <Card className={classes.card}>
         <Typography variant="h3">AI Touch Points</Typography>
         <br />
-        <Stepper
-          activeStep={activeStep}
-          orientation="vertical"
-          classes={{ root: classes.stepperRoot }}
-        >
-          {steps?.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-              <StepContent>
-                <div className={classes.actionsContainer}>
-                  <AIStepperComponent />
-                </div>
-              </StepContent>
-            </Step>
-          ))}
-        </Stepper>
+        <div id="stepperScroll" className={classes.stepperContainer}>
+          <Stepper
+            activeStep={activeStep}
+            orientation="vertical"
+            classes={{ root: classes.stepperRoot }}
+          >
+            {steps?.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+                <StepContent>
+                  <div className={classes.actionsContainer}>
+                    <AIStepperComponent />
+                  </div>
+                </StepContent>
+              </Step>
+            ))}
+          </Stepper>
+        </div>
       </Card>
     </Grid>
   );
