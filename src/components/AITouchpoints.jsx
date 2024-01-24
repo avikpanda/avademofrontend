@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Grid,
   Button,
@@ -11,6 +11,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { useSelector } from "react-redux";
+import AIStepperComponent from "./AIStepperComponent";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -57,11 +58,12 @@ export default function AITouchpoints() {
   const classes = useStyles();
 
   const [activeStep, setActiveStep] = React.useState(0);
-  const steps = [
-    "Correspondence Loading",
-    "Correspondence Ready to send",
-    "Correspondence Sent",
-  ];
+
+  const steps = useSelector(state => state.aiTouchpointsDataReducer?.data);
+
+  useEffect(() => {
+    setActiveStep(steps?.length - 1);
+  }, [steps]);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -85,28 +87,12 @@ export default function AITouchpoints() {
           orientation="vertical"
           classes={{ root: classes.stepperRoot }}
         >
-          {steps.map((label) => (
+          {steps?.map((label) => (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
               <StepContent>
                 <div className={classes.actionsContainer}>
-                  <div>
-                    <Button
-                      disabled={activeStep === 0}
-                      onClick={handleBack}
-                      className={classes.button}
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleNext}
-                      className={classes.button}
-                    >
-                      {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                    </Button>
-                  </div>
+                  <AIStepperComponent />
                 </div>
               </StepContent>
             </Step>
