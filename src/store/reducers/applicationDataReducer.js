@@ -5,6 +5,7 @@ const initialState = {
   customer: null,
   contact: null,
   isWebSocketConnected: false,
+  isAIResponseInProgress: false,
 };
 
 export default function applicationDataReducer(state = initialState, action) {
@@ -38,6 +39,11 @@ export default function applicationDataReducer(state = initialState, action) {
       return {
         ...state,
         onPage2: action.payload,
+      };
+    case "SET_AI_RESPONDING":
+      return {
+        ...state,
+        isAIResponseInProgress: action.payload,
       };
     case "RESET_REDUCERS":
       return initialState;

@@ -23,6 +23,24 @@ function App() {
 
   const onPage2 = useSelector((state) => state.applicationDataReducer.onPage2);
 
+  const handleAIMessage = (msg) => {
+    switch (msg.responseType) {
+      case "CHAT_RESPONSE":
+        dispatch({
+          type: "SET_AI_RECOGNIZING_TRANSCRIPT",
+          payload: msg.response,
+        });
+        break;
+      case "FUNCTION_CALL":
+        return;
+      default:
+        dispatch({
+          type: "SET_AI_RECOGNIZING_TRANSCRIPT",
+          payload: "Sorry. Could you please repeat?",
+        });
+    }
+  };
+
   return (
     <>
       <SockJsClient
@@ -38,6 +56,7 @@ function App() {
         }}
         onMessage={(msg) => {
           console.log(msg);
+          handleAIMessage(msg);
         }}
         ref={(client) => {
           console.log(client);

@@ -38,6 +38,10 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
     (state) => state.transcriptionReducer.data
   );
 
+  const preTranscriptData = useSelector(
+    (state) => state.transcriptionReducer.customerRecognizingTranscript
+  );
+
   const isSimulationStarted = useSelector(
     (state) => state.applicationDataReducer.isSimulationStarted
   );
@@ -57,27 +61,41 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
         <Typography variant="h3">Call Transcript</Typography>
         <br />
         <div id="scroll" className={classes.chatContainer}>
-          {transcriptData?.map(
-            (transcript) =>
-              transcript?.text?.trim().length > 0 && (
-                <Chatbox
-                  side={transcript.type == "customer" ? "left" : "right"}
-                  avatarTitle={transcript.type == "ai" ? "AI" : "C"}
-                  name={transcript.type == "ai" ? "AVA" : "Customer"}
-                  timestamp={new Date()}
-                  key={transcript?.text}
-                  text={transcript?.text}
-                />
-              )
-          )}
+          <>
+            {transcriptData?.map(
+              (transcript) =>
+                transcript?.text?.trim().length > 0 && (
+                  <Chatbox
+                    side={transcript.type == "customer" ? "left" : "right"}
+                    avatarTitle={transcript.type == "ai" ? "AI" : "C"}
+                    name={transcript.type == "ai" ? "AVA" : "Customer"}
+                    timestamp={new Date()}
+                    key={transcript?.text}
+                    text={transcript?.text}
+                  />
+                )
+            )}
+            {preTranscriptData?.trim()?.length > 0 && (
+              <Chatbox
+                side={"left"}
+                avatarTitle={"C"}
+                name={"Customer"}
+                timestamp={new Date()}
+                key={0}
+                text={preTranscriptData}
+              />
+            )}
+          </>
         </div>
-        {isSimulationStarted && <>
-          <SpeechToTextComponent
-            isWebSocketConnected={isWebSocketConnected}
-            client={client}
-          />
-          <TextToSpeechComponent />
-        </>}
+        {isSimulationStarted && (
+          <>
+            <SpeechToTextComponent
+              isWebSocketConnected={isWebSocketConnected}
+              client={client}
+            />
+            <TextToSpeechComponent />
+          </>
+        )}
       </Card>
     </Grid>
   );

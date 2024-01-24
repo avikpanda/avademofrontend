@@ -9,15 +9,21 @@ export default function SpeechToTextComponent({
 }) {
   const dispatch = useDispatch();
 
-  const transcriptData = useSelector(
-    (state) => state.transcriptionReducer.data
+  const isAIResponseInProgress = useSelector(
+    (state) => state.applicationDataReducer.isAIResponseInProgress
   );
 
-  const [recognizingTranscript, setRecTranscript] = useState("");
   const [isListening, setIsListening] = useState(false);
   const speechConfig = useRef(null);
   const audioConfig = useRef(null);
   const recognizer = useRef(null);
+
+  const setMyPreTranscript = (transcriptPhrase) => {
+    dispatch({
+      type: "SET_CUSTOMER_RECOGNIZING_TRANSCRIPT",
+      payload: transcriptPhrase,
+    });
+  };
 
   const setMyTranscript = (transcriptPhrase) => {
     dispatch({
@@ -25,6 +31,13 @@ export default function SpeechToTextComponent({
       payload: transcriptPhrase,
     });
   };
+
+  useEffect(() => {
+    if (recognizer.current !== null) {
+      if (isAIResponseInProgress) pauseListening();
+      else resumeListening();
+    }
+  }, [isAIResponseInProgress]);
 
   useEffect(() => {
     speechConfig.current = sdk.SpeechConfig.fromSubscription(
@@ -47,14 +60,14 @@ export default function SpeechToTextComponent({
         const transcript = result.text;
         console.log("Transcript: -->", transcript);
         // Call a function to process the transcript as needed
-
+        setMyPreTranscript("");
         setMyTranscript(transcript);
         console.log("isWebSocketConnected", isWebSocketConnected, transcript);
         if (isWebSocketConnected)
           client.sendMessage(
             "/process-speech",
             JSON.stringify({
-              message: transcript,
+              transcript,
             })
           );
       }
@@ -68,7 +81,7 @@ export default function SpeechToTextComponent({
         console.log("Transcript: -->", transcript);
         // Call a function to process the transcript as needed
 
-        setRecTranscript(transcript);
+        setMyPreTranscript(transcript);
       }
     };
 
