@@ -52,7 +52,10 @@ export default function applicationDataReducer(state = initialState, action) {
         scenario: action.payload,
       };
     case "RESET_REDUCERS":
-      return initialState;
+      return {
+        ...initialState,
+        isWebSocketConnected: state.isWebSocketConnected,
+      };
     default:
       return state;
   }

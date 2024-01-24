@@ -1,7 +1,14 @@
 import { delay, put, takeEvery } from "redux-saga/effects";
 
 export function* sendEmailWorker() {
-  yield delay(1000);
+  try {
+    // yield call(axios.post('/user', {
+    //   firstName: 'Fred',
+    //   lastName: 'Flintstone'
+    // }))
+  } catch {
+    console.error("");
+  }
   yield put({ type: "SEND_EMAIL_SUCCESS" });
 }
 

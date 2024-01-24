@@ -23,7 +23,7 @@ function App() {
     (state) => state.applicationDataReducer.customer?.customerId
   );
   const scenarioId = useSelector(
-    (state) => state.applicationDataReducer.scenarioId
+    (state) => state.applicationDataReducer.scenario
   );
 
   const setWebSocketConnectionStatus = (flag) => {
@@ -115,7 +115,7 @@ function App() {
         currentAnswer =
           "Sorry! I am not authorized to perform this action. I will transfer this call to a specialist to help you resolve your concern.";
         break;
-      case "END_OF_CALL":
+      case "CALL_END":
         currentAnswer = "Have a great day!";
         setTimeout(() => {
           dispatch({
