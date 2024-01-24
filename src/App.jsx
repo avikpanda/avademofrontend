@@ -39,6 +39,10 @@ function App() {
           payload: "Sorry. Could you please repeat?",
         });
     }
+    dispatch({
+      type: "SET_AI_RESPONDING",
+      payload: false,
+    });
   };
 
   return (

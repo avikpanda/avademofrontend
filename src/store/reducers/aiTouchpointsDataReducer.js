@@ -1,5 +1,5 @@
 const initialState = {
-  data: [],
+  data: ["hello", "there"],
 };
 
 export default function aiTouchpointsDataReducer(state = initialState, action) {

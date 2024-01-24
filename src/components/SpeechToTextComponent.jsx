@@ -63,13 +63,18 @@ export default function SpeechToTextComponent({
         setMyPreTranscript("");
         setMyTranscript(transcript);
         console.log("isWebSocketConnected", isWebSocketConnected, transcript);
-        if (isWebSocketConnected)
+        if (isWebSocketConnected) {
           client.sendMessage(
             "/process-speech",
             JSON.stringify({
               transcript,
             })
           );
+          dispatch({
+            type: "SET_AI_RESPONDING",
+            payload: true,
+          });
+        }
       }
     };
 

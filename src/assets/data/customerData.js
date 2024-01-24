@@ -1,7 +1,7 @@
 const data = [
   {
     customerId: 123,
-    customerName: "Customer X",
+    customerName: "Aqua Packaging",
     customerNumber: "2356734",
     openInvoices: "64785, 34567, 88995",
     lastCallSummary:
@@ -22,7 +22,12 @@ const data = [
   },
   {
     customerId: 234,
-    customerName: "Customer Y",
+    customerName: "Glass Construction",
+    customerNumber: "2356734",
+    openInvoices: "64785, 34567, 88995",
+    lastCallSummary:
+      "Discussed about open invoices. Abhijeet Dey made a Payment Commitment of USD 3,600",
+    status: "Escalated",
     contacts: [
       {
         id: 3,
@@ -38,7 +43,12 @@ const data = [
   },
   {
     customerId: 345,
-    customerName: "Customer Z",
+    customerName: "Bottle Makers",
+    customerNumber: "2356734",
+    openInvoices: "64785, 34567, 88995",
+    lastCallSummary:
+      "Discussed about open invoices. Abhijeet Dey made a Payment Commitment of USD 3,600",
+    status: "Escalated",
     contacts: [
       {
         id: 5,

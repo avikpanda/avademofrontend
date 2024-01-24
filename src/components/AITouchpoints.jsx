@@ -59,10 +59,13 @@ export default function AITouchpoints() {
 
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const steps = useSelector(state => state.aiTouchpointsDataReducer?.data);
+  const steps = useSelector((state) => state.aiTouchpointsReducer?.data);
 
   useEffect(() => {
     setActiveStep(steps?.length - 1);
+    setTimeout(() => {
+      setActiveStep(steps?.length);
+    }, 3000);
   }, [steps]);
 
   const handleNext = () => {

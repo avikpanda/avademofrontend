@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.typography.pxToRem(8),
     minHeight: "1rem",
     overflow: "hidden",
-    marginTop: theme.typography.pxToRem(10),
+    marginTop: theme.typography.pxToRem(20),
   },
   left: {
     maxWidth: "99%",
