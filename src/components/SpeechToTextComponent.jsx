@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 import { SPEECH_KEY, SPEECH_REGION } from "../utils/constants";
 
-export default function SpeechToTextComponent() {
+export default function SpeechToTextComponent({
+  client,
+  isWebSocketConnected,
+}) {
   const dispatch = useDispatch();
 
   const transcriptData = useSelector(
@@ -46,6 +49,14 @@ export default function SpeechToTextComponent() {
         // Call a function to process the transcript as needed
 
         setMyTranscript(transcript);
+        console.log("isWebSocketConnected", isWebSocketConnected, transcript);
+        if (isWebSocketConnected)
+          client.sendMessage(
+            "/app/user-all",
+            JSON.stringify({
+              message: transcript,
+            })
+          );
       }
     };
 

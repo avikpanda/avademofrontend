@@ -86,7 +86,7 @@ export default function TextToSpeechComponent() {
 
   return (
     <div>
-      <button
+      {/* <button
         onClick={() => {
           dispatch({
             type: "SET_AI_RECOGNIZING_TRANSCRIPT",
@@ -106,7 +106,7 @@ export default function TextToSpeechComponent() {
         }}
       >
         Click to speak
-      </button>
+      </button> */}
     </div>
   );
 }

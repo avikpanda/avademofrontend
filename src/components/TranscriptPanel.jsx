@@ -38,6 +38,10 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
     (state) => state.transcriptionReducer.data
   );
 
+  const isSimulationStarted = useSelector(
+    (state) => state.applicationDataReducer.isSimulationStarted
+  );
+
   const updateScroll = () => {
     const element = document.getElementById("scroll");
     element.scrollTop = element.scrollHeight;
@@ -67,8 +71,13 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
               )
           )}
         </div>
-        <SpeechToTextComponent />
-        <TextToSpeechComponent />
+        {isSimulationStarted && <>
+          <SpeechToTextComponent
+            isWebSocketConnected={isWebSocketConnected}
+            client={client}
+          />
+          <TextToSpeechComponent />
+        </>}
       </Card>
     </Grid>
   );
