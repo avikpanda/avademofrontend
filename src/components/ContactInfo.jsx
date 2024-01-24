@@ -1,8 +1,9 @@
 import { Grid, Button, Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useSelector, useDispatch } from "react-redux";
 import Typography from "@material-ui/core/Typography";
 import Avatar from "@material-ui/core/Avatar";
-import { useSelector } from "react-redux";
+import useTimer from "../hooks/useTimer";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -45,8 +46,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function formatTime(seconds) {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.round(seconds % 60);
+  const t = [h, m > 9 ? m : h ? "0" + m : m || "0", s > 9 ? s : "0" + s]
+    .filter(Boolean)
+    .join(":");
+  return t;
+}
+
 export default function ContactInfo() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const isSimulationStarted = useSelector(
+    (state) => state.applicationDataReducer.isSimulationStarted
+  );
+
+  const timerDuration = useTimer(0, isSimulationStarted);
+
+  const disconnectCall = () => {
+    if (isSimulationStarted)
+      dispatch({
+        type: "SET_SIMULATION_STARTED",
+        payload: false,
+      });
+    else
+      dispatch({
+        type: "RESET_REDUCERS",
+      });
+  };
+
   return (
     <Grid item xs={6} className={classes.root}>
       <Card className={classes.card}>
@@ -61,8 +92,12 @@ export default function ContactInfo() {
           <Avatar aria-label="recipe" className={classes.avatar}>
             AD
           </Avatar>
-          <Typography>00:00</Typography>
-          <Button className={classes.hangup}>Hangup Call</Button>
+          <Typography>
+            {isSimulationStarted ? formatTime(timerDuration) : "Call Ended"}
+          </Typography>
+          <Button className={classes.hangup} onClick={disconnectCall}>
+            {isSimulationStarted ? "Hangup Call" : "Home"}
+          </Button>
         </Grid>
         <div className={classes.custInfoContainer}>
           <Typography className={classes.title} color="textSecondary">

@@ -1,11 +1,10 @@
 const initialState = {
   onPage2: false,
-  isOnCall: false,
   callState: "incoming",
-  customerId: null,
-  contactId: null,
+  isSimulationStarted: false,
+  customer: null,
+  contact: null,
   isWebSocketConnected: false,
-  data: [],
 };
 
 export default function applicationDataReducer(state = initialState, action) {
@@ -18,17 +17,22 @@ export default function applicationDataReducer(state = initialState, action) {
     case "SET_CUSTOMER_ID":
       return {
         ...state,
-        customerId: action.payload,
+        customer: action.payload,
       };
     case "SET_CONTACT_ID":
       return {
         ...state,
-        contactId: action.payload,
+        contact: action.payload,
       };
     case "SET_WEBSOCKET_CONNECTION":
       return {
         ...state,
         isWebSocketConnected: action.payload,
+      };
+    case "SET_SIMULATION_STARTED":
+      return {
+        ...state,
+        isSimulationStarted: action.payload,
       };
     case "SET_PAGE2_STATE":
       return {

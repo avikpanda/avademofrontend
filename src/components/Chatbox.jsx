@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "transparent",
   },
   avatarTitle: {
-    textTransform: "uppercase",
     fontSize: theme.typography.pxToRem(12),
     color: theme.palette.text.primary,
     marginLeft: ({ side }) => side === "left" && theme.typography.pxToRem(7),
@@ -92,6 +91,7 @@ const Chatbox = (props) => {
     avatarProps,
     timestamp,
     avatarTitle,
+    name,
   } = props;
 
   const defaultStyle = useStyles({ side });
@@ -132,9 +132,7 @@ const Chatbox = (props) => {
           </Avatar>
 
           {avatarTitle && (
-            <Typography className={defaultStyle.avatarTitle}>
-              {avatarTitle}
-            </Typography>
+            <Typography className={defaultStyle.avatarTitle}>{name}</Typography>
           )}
 
           {timestamp && (

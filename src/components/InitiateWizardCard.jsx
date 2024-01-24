@@ -11,6 +11,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import customerData from "../assets/data/customerData";
+import HorizontalStepper from "./HorizontalStepper";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -56,10 +57,13 @@ const useStyles = makeStyles((theme) => ({
     width: theme.typography.pxToRem(350),
   },
   submitButton: {
-    width: theme.typography.pxToRem(200),
-    height: theme.typography.pxToRem(200),
+    width: theme.typography.pxToRem(180),
+    height: theme.typography.pxToRem(180),
     borderRadius: "50%",
-    border: "5px solid rgba(97, 111, 128, 1)",
+    border: "4px solid rgba(97, 111, 128, 1)",
+  },
+  hide: {
+    opacity: 0,
   },
 }));
 
@@ -99,6 +103,13 @@ export default function InitiateWizardCard() {
     dispatch({
       type: "SET_PAGE2_STATE",
       payload: flag,
+    });
+  };
+
+  const startSimulation = () => {
+    dispatch({
+      type: "SET_SIMULATION_STARTED",
+      payload: true,
     });
   };
 
@@ -149,11 +160,19 @@ export default function InitiateWizardCard() {
         </Button>
         <br />
         <br />
-        <Typography variant="body1">Pick a Customer:</Typography>
+        <Typography
+          variant="body1"
+          className={clsx({ [classes.hide]: callState === "outgoing" })}
+        >
+          Pick a Customer:
+        </Typography>
         <br />
         <Select
           variant="outlined"
-          className={classes.selectCustomer}
+          className={clsx({
+            [classes.hide]: callState === "outgoing",
+            [classes.selectCustomer]: true,
+          })}
           onChange={(event) => {
             setCustomerId(event.target.value);
           }}
@@ -168,33 +187,13 @@ export default function InitiateWizardCard() {
           ))}
         </Select>
         <br />
-        <Typography variant="body1">Pick a Contact:</Typography>
-        <br />
-        <Select
-          variant="outlined"
-          className={classes.selectCustomer}
-          onChange={(event) => {
-            setContactId(event.target.value);
-          }}
-          disabled={!customerId}
-        >
-          <MenuItem value={null}>
-            <em>None</em>
-          </MenuItem>
-          {customerData
-            ?.find((item) => item.customerId === customerId)
-            ?.contacts?.map((item) => (
-              <MenuItem key={item.id} value={item.id}>
-                {item.fullName}
-              </MenuItem>
-            ))}
-        </Select>
+        <HorizontalStepper />
         <br />
         <br />
         <Grid item xs={12} container justifyContent="center">
           <IconButton
             className={classes.submitButton}
-            onClick={() => setIsCallInitiated(true)}
+            onClick={startSimulation}
           >
             Start Simulation
           </IconButton>

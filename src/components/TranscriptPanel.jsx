@@ -59,6 +59,7 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
                 <Chatbox
                   side={transcript.type == "customer" ? "left" : "right"}
                   avatarTitle={transcript.type == "ai" ? "AI" : "C"}
+                  name={transcript.type == "ai" ? "AVA" : "Customer"}
                   timestamp={new Date()}
                   key={transcript?.text}
                   text={transcript?.text}
