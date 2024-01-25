@@ -104,7 +104,7 @@ export default function InitiateWizardCard() {
     let newCustomer;
     const newScenario = null;
     if (selectedCallType === "outgoing") {
-      newCustomer = customerData[0];
+      newCustomer = customerData[2];
     } else {
       newCustomer = {};
     }
@@ -231,7 +231,10 @@ export default function InitiateWizardCard() {
           <IconButton
             className={classes.submitButton}
             onClick={startSimulation}
-            disabled={(callState === "outgoing" && scenario === null) || (callState === "incoming" && customer === null)}
+            disabled={
+              (callState === "outgoing" && scenario === null) ||
+              (callState === "incoming" && customer === null)
+            }
           >
             Start Simulation
           </IconButton>

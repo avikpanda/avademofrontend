@@ -7,6 +7,7 @@ import SpeechToTextComponent from "./SpeechToTextComponent";
 import TextToSpeechComponent from "./TextToSpeechComponent";
 import Chatbox from "./Chatbox";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TranscriptPanel({ client, isWebSocketConnected }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const transcriptData = useSelector(
     (state) => state.transcriptionReducer.data
@@ -56,13 +58,10 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
 
   useEffect(() => {
     if (!isSimulationStarted && isWebSocketConnected) {
-      const currentAnswer = "Please Summarize the above chat.";
-      client.sendMessage(
-        "/process-speech",
-        JSON.stringify({
-          currentAnswer,
-        })
-      );
+      dispatch({
+        type: "ADD_AI_TOUCHPOINT",
+        payload: "Sending Call Summary",
+      });
     }
   }, [isSimulationStarted]);
 

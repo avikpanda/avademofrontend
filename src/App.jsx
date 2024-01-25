@@ -55,18 +55,8 @@ function App() {
           initialContext = `OUT-${scenarioId}`;
         }
 
-        SockClient.current.sendMessage(
-          "/push-system-context",
-          JSON.stringify({
-            initialContext,
-          })
-        );
-        SockClient.current.sendMessage(
-          "/push-chat-history",
-          JSON.stringify({
-            currentAnswer,
-          })
-        );
+        SockClient.current.sendMessage("/push-system-context", initialContext);
+        SockClient.current.sendMessage("/push-chat-history", currentAnswer);
       }
     }
   }, [isSimulationStarted]);
@@ -118,7 +108,7 @@ function App() {
           payload: "Transferring the call to a Specialist",
         });
         currentAnswer =
-          "Sorry! I am not authorized to perform this action. I will transfer this call to a specialist to help you resolve your concern.";
+          "Sure. let me transfer this call to a specialist to help you resolve your concern.";
         break;
       case "CALL_END":
         currentAnswer = "Have a great day!";
@@ -145,12 +135,7 @@ function App() {
       });
     }
     if (isWebSocketConnected) {
-      SockClient.current.sendMessage(
-        "/push-chat-history",
-        JSON.stringify({
-          currentAnswer,
-        })
-      );
+      SockClient.current.sendMessage("/push-chat-history", currentAnswer);
     }
   };
 

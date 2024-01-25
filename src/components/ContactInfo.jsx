@@ -1,3 +1,4 @@
+import React from "react";
 import { Grid, Button, Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector, useDispatch } from "react-redux";
@@ -60,11 +61,17 @@ export default function ContactInfo() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const [duration, setDuration] = React.useState(0);
+
   const isSimulationStarted = useSelector(
     (state) => state.applicationDataReducer.isSimulationStarted
   );
 
   const timerDuration = useTimer(0, isSimulationStarted);
+
+  React.useEffect(() => {
+    if (!isSimulationStarted) setDuration(timerDuration);
+  }, [isSimulationStarted]);
 
   const disconnectCall = () => {
     if (isSimulationStarted)
@@ -93,7 +100,9 @@ export default function ContactInfo() {
             AD
           </Avatar>
           <Typography>
-            {isSimulationStarted ? formatTime(timerDuration) : "Call Ended"}
+            {isSimulationStarted
+              ? formatTime(timerDuration)
+              : formatTime(duration)}
           </Typography>
           <Button className={classes.hangup} onClick={disconnectCall}>
             {isSimulationStarted ? "Hangup Call" : "Home"}

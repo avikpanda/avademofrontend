@@ -73,9 +73,7 @@ export default function SpeechToTextComponent({
         if (isWebSocketConnected) {
           client.sendMessage(
             "/process-speech",
-            JSON.stringify({
-              transcript,
-            })
+            transcript
           );
           dispatch({
             type: "SET_AI_RESPONDING",
