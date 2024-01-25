@@ -52,6 +52,11 @@ export default function SpeechToTextComponent({
       audioConfig.current
     );
 
+    const phraseList = sdk.PhraseListGrammar.fromRecognizer(recognizer.current);
+    phraseList.addPhrase("Ava");
+    phraseList.addPhrase("Highradius");
+    phraseList.addPhrase("P2P");
+
     const processRecognizedTranscript = (event) => {
       const result = event.result;
       console.log("Recognition result:", result);
