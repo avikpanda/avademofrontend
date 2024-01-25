@@ -145,6 +145,12 @@ function getSteps(type) {
         "Making a Transfer Request to Ayush Kumar",
         "Call was Transferred",
       ];
+    case "Sending Call Summary":
+      return [
+        "Finiding Call Summary Email Template",
+        "Generating Call Summary Email and Sending it for Processing",
+        "Call Summary Email Sent to the customer and the assigned collector",
+      ];
     default:
       return ["", "", ""];
   }

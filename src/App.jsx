@@ -169,6 +169,10 @@ function App() {
             payload: "CALL_SUMMARY",
             callSummary: msg.response,
           });
+          dispatch({
+            type: "ADD_AI_TOUCHPOINT",
+            payload: "Sending Call Summary",
+          });
         }
         dispatch({
           type: "SET_AI_RECOGNIZING_TRANSCRIPT",
