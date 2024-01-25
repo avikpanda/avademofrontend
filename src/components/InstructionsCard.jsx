@@ -29,22 +29,12 @@ const outgoingScenarios = [
   {
     id: 2,
     type: "info",
-    text: "Upcoming Due Date Reminder",
+    text: "Upcoming Payment Commitment Reminder",
   },
   {
     id: 3,
     type: "info",
-    text: "Upcoming Payment Commitment Reminder",
-  },
-  {
-    id: 4,
-    type: "info",
     text: "Broken Payment Commitment",
-  },
-  {
-    id: 5,
-    type: "info",
-    text: "Incse the customer say they are unavailable, ava is capable of scheduling a follow up for the suggested time.",
   },
 ];
 
