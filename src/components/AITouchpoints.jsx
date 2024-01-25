@@ -73,7 +73,7 @@ export default function AITouchpoints() {
     setActiveStep(steps?.length - 1);
     setTimeout(() => {
       setActiveStep(steps?.length);
-    }, 3000);
+    }, 1250 * 3);
   }, [steps]);
 
   const updateScroll = () => {
