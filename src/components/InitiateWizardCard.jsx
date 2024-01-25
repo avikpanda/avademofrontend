@@ -89,6 +89,12 @@ export default function InitiateWizardCard() {
   const callState = useSelector(
     (state) => state.applicationDataReducer.callState
   );
+  const scenario = useSelector(
+    (state) => state.applicationDataReducer.scenario
+  );
+  const customer = useSelector(
+    (state) => state.applicationDataReducer.customer
+  );
 
   const setIsIncomingFlow = (selectedCallType) => {
     dispatch({
@@ -183,11 +189,13 @@ export default function InitiateWizardCard() {
             variant="outlined"
             className={classes.selectCustomer}
             onChange={(event) => {
-              setCustomerId(event.target.value);
+              if (event.target.value !== "Select a Customer")
+                setCustomerId(event.target.value);
             }}
+            defaultValue={"Select a Customer"}
           >
-            <MenuItem value={{}}>
-              <em>None</em>
+            <MenuItem value={"Select a Customer"}>
+              <em>Select a Customer</em>
             </MenuItem>
             {customerData.map((item) => (
               <MenuItem key={item.customerId} value={item}>
@@ -200,11 +208,13 @@ export default function InitiateWizardCard() {
             variant="outlined"
             className={classes.selectCustomer}
             onChange={(event) => {
-              setScenario(event.target.value);
+              if (event.target.value !== "Select a Scenario")
+                setScenario(event.target.value);
             }}
+            defaultValue={"Select a Scenario"}
           >
-            <MenuItem value={{}}>
-              <em>None</em>
+            <MenuItem value={"Select a Scenario"}>
+              <em>Select a Scenario</em>
             </MenuItem>
             {scenarios.map((item) => (
               <MenuItem key={item.id} value={item.id}>
@@ -221,6 +231,7 @@ export default function InitiateWizardCard() {
           <IconButton
             className={classes.submitButton}
             onClick={startSimulation}
+            disabled={(callState === "outgoing" && scenario === null) || (callState === "incoming" && customer === null)}
           >
             Start Simulation
           </IconButton>
