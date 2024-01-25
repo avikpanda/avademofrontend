@@ -164,7 +164,7 @@ export default function AIStepperComponent({ type, isManualOpen }) {
           if (prevStep === null) return 0;
           return prevStep + 1;
         });
-      }, 1250);
+      }, 1450);
     } else {
       setActiveStep(2);
     }

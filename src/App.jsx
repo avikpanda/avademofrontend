@@ -52,7 +52,7 @@ function App() {
         if (callState === "incoming") {
           initialContext = `IN-${customerId}`;
         } else {
-          initialContext = `OUT${scenarioId}`;
+          initialContext = `OUT-${scenarioId}`;
         }
 
         SockClient.current.sendMessage(

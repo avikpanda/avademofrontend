@@ -71,9 +71,6 @@ export default function AITouchpoints() {
   useEffect(() => {
     setIsManualOpen(false);
     setActiveStep(steps?.length - 1);
-    setTimeout(() => {
-      setActiveStep(steps?.length);
-    }, 1250 * 3);
   }, [steps]);
 
   const updateScroll = () => {

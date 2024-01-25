@@ -56,6 +56,8 @@ export default function SpeechToTextComponent({
     phraseList.addPhrase("Ava");
     phraseList.addPhrase("Highradius");
     phraseList.addPhrase("P2P");
+    phraseList.addPhrase("PastDue");
+    phraseList.addPhrase("Dispute");
 
     const processRecognizedTranscript = (event) => {
       const result = event.result;
