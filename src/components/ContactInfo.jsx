@@ -97,7 +97,7 @@ export default function ContactInfo() {
           className={classes.subtitleContainer}
         >
           <Avatar aria-label="recipe" className={classes.avatar}>
-            AD
+            AK
           </Avatar>
           <Typography>
             {isSimulationStarted
@@ -111,15 +111,15 @@ export default function ContactInfo() {
         <div className={classes.custInfoContainer}>
           <Typography className={classes.title} color="textSecondary">
             <div className={classes.label}>Name :</div>
-            Abhijeet Dey
+            Ayush Kumar
           </Typography>
           <Typography className={classes.title} color="textSecondary">
             <div className={classes.label}>Mobile :</div>
-            +91 986-166-4662
+            +91 993-828-4655
           </Typography>
           <Typography className={classes.title} color="textSecondary">
             <div className={classes.label}>Email :</div>
-            abhijeet.dey@highradius.com
+            ayush.kumar@highradius.com
           </Typography>
         </div>
       </Card>

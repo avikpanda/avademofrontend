@@ -41,8 +41,8 @@ function App() {
     if (isSimulationStarted) {
       const currentAnswer =
         callState === "incoming"
-          ? "Hi, This is Ava from Highradius. How can I help you today?"
-          : "Hey there, I am Ava from HighRadius. Is this the right time to talk?";
+          ? "Hi Ayush, This is Ava from Highradius. How can I help you today?"
+          : "Hey Ayush, I am Ava from HighRadius. Is this the right time to talk?";
       dispatch({
         type: "SET_AI_RECOGNIZING_TRANSCRIPT",
         payload: currentAnswer,

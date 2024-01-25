@@ -47,6 +47,10 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
     (state) => state.applicationDataReducer.isSimulationStarted
   );
 
+  const isAIResponseInProgress = useSelector(
+    (state) => state.applicationDataReducer.isAIResponseInProgress
+  );
+
   const updateScroll = () => {
     const element = document.getElementById("scroll");
     element.scrollTop = element.scrollHeight;
@@ -54,7 +58,7 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
 
   useEffect(() => {
     updateScroll();
-  }, [transcriptData]);
+  }, [transcriptData, preTranscriptData, isAIResponseInProgress]);
 
   useEffect(() => {
     if (!isSimulationStarted && isWebSocketConnected) {
@@ -64,6 +68,15 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
       });
     }
   }, [isSimulationStarted]);
+
+  const Spinner = () => (
+    <div className="spinner">
+      <div className="spinner__item1"></div>
+      <div className="spinner__item2"></div>
+      <div className="spinner__item3"></div>
+      <div className="spinner__item4"></div>
+    </div>
+  );
 
   return (
     <Grid item xs={12} className={classes.root}>
@@ -94,6 +107,17 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
                 key={0}
                 text={preTranscriptData}
               />
+            )}
+            {isAIResponseInProgress && isSimulationStarted && (
+              <Chatbox
+                side={"right"}
+                avatarTitle={"AI"}
+                name={"AVA"}
+                timestamp={new Date()}
+                key={0}
+              >
+                <Spinner />
+              </Chatbox>
             )}
           </>
         </div>
