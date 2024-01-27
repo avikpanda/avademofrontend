@@ -12,6 +12,9 @@ export default function SpeechToTextComponent({
   const isAIResponseInProgress = useSelector(
     (state) => state.applicationDataReducer.isAIResponseInProgress
   );
+  const isAISpeaking = useSelector(
+    (state) => state.applicationDataReducer.isAISpeaking
+  );
 
   const [isListening, setIsListening] = useState(false);
   const speechConfig = useRef(null);
@@ -34,10 +37,10 @@ export default function SpeechToTextComponent({
 
   useEffect(() => {
     if (recognizer.current !== null) {
-      if (isAIResponseInProgress) pauseListening();
+      if (isAIResponseInProgress || isAISpeaking) pauseListening();
       else resumeListening();
     }
-  }, [isAIResponseInProgress]);
+  }, [isAIResponseInProgress, isAISpeaking]);
 
   useEffect(() => {
     speechConfig.current = sdk.SpeechConfig.fromSubscription(
@@ -71,10 +74,7 @@ export default function SpeechToTextComponent({
         setMyTranscript(transcript);
         console.log("isWebSocketConnected", isWebSocketConnected, transcript);
         if (isWebSocketConnected) {
-          client.sendMessage(
-            "/process-speech",
-            transcript
-          );
+          client.sendMessage("/process-speech", transcript);
           dispatch({
             type: "SET_AI_RESPONDING",
             payload: true,

@@ -60,13 +60,29 @@ export default function TextToSpeechComponent() {
           result.reason === speechsdk.ResultReason.SynthesizingAudioCompleted
         ) {
           text = `synthesis finished for "${textToSpeak}".\n`;
+          dispatch({
+            type: "SET_AI_SPEAKING",
+            payload: true,
+          });
+          console.log(
+            "AI Started Speaking. Duration: ",
+            result.privAudioDuration
+          );
+          setTimeout(() => {
+            dispatch({
+              type: "SET_AI_SPEAKING",
+              payload: false,
+            });
+            console.log("AI Finished Speaking");
+          }, result.privAudioDuration / 10000);
         } else if (result.reason === speechsdk.ResultReason.Canceled) {
           text = `synthesis failed. Error detail: ${result.errorDetails}.\n`;
           console.error(text);
         }
+        console.log("Avik Test", result);
         setTimeout(() => {
           setAITranscript(textToSpeak);
-        }, 1000);
+        }, 500);
       },
       function (err) {
         setAITranscript(`Error: ${err}.\n`);

@@ -142,7 +142,7 @@ function getSteps(type) {
     case "Transferring the call to a Specialist":
       return [
         "Identifying the right person for this job",
-        "Making a Transfer Request to Ayush Kumar",
+        "Making a Transfer Request to Avik Panda",
         "Call was Transferred",
       ];
     case "Sending Call Summary":

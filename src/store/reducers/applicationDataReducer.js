@@ -8,6 +8,7 @@ const initialState = {
   isWebSocketConnected: false,
   isAIResponseInProgress: false,
   callSummary: "",
+  isAISpeaking: false,
 };
 
 export default function applicationDataReducer(state = initialState, action) {
@@ -46,6 +47,11 @@ export default function applicationDataReducer(state = initialState, action) {
       return {
         ...state,
         isAIResponseInProgress: action.payload,
+      };
+    case "SET_AI_SPEAKING":
+      return {
+        ...state,
+        isAISpeaking: action.payload,
       };
     case "SET_SCENARIO":
       return {
