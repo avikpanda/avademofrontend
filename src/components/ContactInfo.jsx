@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     padding: `0 ${theme.typography.pxToRem(20)}`,
-    marginTop: theme.typography.pxToRem(20),
+    marginTop: theme.typography.pxToRem(17),
   },
   avatar: {
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     padding: `${theme.typography.pxToRem(10)} ${theme.typography.pxToRem(30)}`,
   },
   title: {
-    marginTop: theme.typography.pxToRem(10),
+    marginTop: theme.typography.pxToRem(4),
     display: "flex",
     width: "100%",
   },
