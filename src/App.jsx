@@ -27,6 +27,10 @@ function App() {
     (state) => state.applicationDataReducer.scenario
   );
 
+  const contactName = useSelector(
+    (state) => state.applicationDataReducer.contactName
+  );
+
   const setWebSocketConnectionStatus = (flag) => {
     dispatch({
       type: "SET_WEBSOCKET_CONNECTION",
@@ -50,9 +54,9 @@ function App() {
       if (isWebSocketConnected) {
         let initialContext = "";
         if (callState === "incoming") {
-          initialContext = `IN-${customerId}`;
+          initialContext = `IN-${contactName}`;
         } else {
-          initialContext = `OUT-${scenarioId}`;
+          initialContext = `OUT-${contactName}`;
         }
 
         SockClient.current.sendMessage("/push-system-context", initialContext);

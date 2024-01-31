@@ -1,3 +1,4 @@
+import React from "react";
 import clsx from "clsx";
 import {
   Grid,
@@ -65,6 +66,18 @@ const useStyles = makeStyles((theme) => ({
   hide: {
     opacity: 0,
   },
+  notRobotContainer: {
+    position: "relative",
+    bottom: theme.typography.pxToRem(25),
+  },
+  robotContainer: {
+    position: "absolute",
+    right: "32%"
+  },
+  label: {
+    marginBottom: theme.typography.pxToRem(5)
+
+  }
 }));
 
 const scenarios = [
@@ -80,6 +93,16 @@ const scenarios = [
     id: 3,
     name: "Upcoming P2P Reminder",
   },
+];
+
+const contactData = [
+  "Abhijeet Dey",
+  "Sayeed Shabbir",
+  "Tanuj Vohra",
+  "Avik Panda",
+  "Shreeja Verma",
+  "Ayush Kumar",
+  "Barkha Sinha"
 ];
 
 export default function InitiateWizardCard() {
@@ -104,9 +127,10 @@ export default function InitiateWizardCard() {
     let newCustomer;
     const newScenario = null;
     if (selectedCallType === "outgoing") {
-      newCustomer = customerData[2];
+      newCustomer = customerData[1];
+      setContactName(contactData[0]);
     } else {
-      newCustomer = {};
+      newCustomer = customerData[0];
     }
     setCustomerId(newCustomer);
     setScenario(newScenario);
@@ -118,6 +142,16 @@ export default function InitiateWizardCard() {
       payload: customerId,
     });
   };
+  const setContactName = (contactName) => {
+    dispatch({
+      type: "SET_CONTACT_NAME",
+      payload: contactName,
+    });
+  };
+  React.useEffect(()  => { 
+    setCustomerId(customerData[0]);
+    setContactName(contactData[0]);
+  }, [])
 
   const setScenario = (id) => {
     dispatch({
@@ -136,109 +170,99 @@ export default function InitiateWizardCard() {
   return (
     <Grid item xs={6} className={classes.root}>
       <Card className={classes.card}>
-        <Typography variant="h3">Start Simulation Engine</Typography>
+        <Typography variant="h2">Start Simulation Engine</Typography>
         <br />
-        <Grid item xs={12} container justifyContent="center">
-          <img
-            src="./src/assets/images/aiRobo.gif"
-            className={classes.robogif}
-          />
-        </Grid>
-        <Typography variant="body1">Select a Call Type:</Typography>
         <br />
-        <Button
-          className={classes.callTypeSwitch}
-          classes={{ root: classes.callTypeSwitchRoot }}
-          disableRipple
-        >
-          <Grid container className={classes.border}>
-            <Grid
-              item
-              className={clsx({
-                [classes.highlighted]: callState === "incoming",
-                [classes.defaultSwtch]: true,
-              })}
-              onClick={() => {
-                setIsIncomingFlow("incoming");
-              }}
-            >
-              Incoming
+        <br />
+        <div className={classes.notRobotContainer}>
+          <div className={classes.robotContainer}>
+            <img
+              src="./src/assets/images/aiRobo.gif"
+              className={classes.robogif}
+            />
+          </div>
+          <Typography variant="body1" className={classes.label}>Select a Call Type:</Typography>
+          <Button
+            className={classes.callTypeSwitch}
+            classes={{ root: classes.callTypeSwitchRoot }}
+            disableRipple
+          >
+            <Grid container className={classes.border}>
+              <Grid
+                item
+                className={clsx({
+                  [classes.highlighted]: callState === "incoming",
+                  [classes.defaultSwtch]: true,
+                })}
+                onClick={() => {
+                  setIsIncomingFlow("incoming");
+                }}
+              >
+                Incoming
+              </Grid>
+              <Grid
+                item
+                className={clsx({
+                  [classes.highlighted]: callState === "outgoing",
+                  [classes.defaultSwtch]: true,
+                })}
+                onClick={() => {
+                  setIsIncomingFlow("outgoing");
+                }}
+              >
+                Outgoing
+              </Grid>
             </Grid>
-            <Grid
-              item
-              className={clsx({
-                [classes.highlighted]: callState === "outgoing",
-                [classes.defaultSwtch]: true,
-              })}
-              onClick={() => {
-                setIsIncomingFlow("outgoing");
+          </Button>
+          <br />
+          <br />
+          <Typography variant="body1" className={classes.label}>
+            Pick a User
+          </Typography>
+          {callState === "incoming" ? (
+            <Select
+              variant="outlined"
+              className={classes.selectCustomer}
+              onChange={(event) => {
+                  setContactName(event.target.value);
               }}
+            defaultValue={"Abhijeet Dey"}
             >
-              Outgoing
-            </Grid>
+              {contactData?.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          ) : (
+            <Select
+              variant="outlined"
+              className={classes.selectCustomer}
+              onChange={(event) => {
+                  setContactName(event.target.value);
+              }}
+              defaultValue={"Abhijeet Dey"}
+            >
+              {contactData?.map((item) => (
+                <MenuItem key={item} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          )}
+          <br />
+          <HorizontalStepper />
+          <br />
+          <br />
+          <Grid item xs={12} container justifyContent="center">
+            <IconButton
+              className={classes.submitButton}
+              onClick={startSimulation}
+            >
+              Start Simulation
+            </IconButton>
           </Grid>
-        </Button>
-        <br />
-        <br />
-        <Typography variant="body1">
-          {callState === "incoming" ? "Pick a Customer:" : "Pick a Scenario:"}
-        </Typography>
-        <br />
-        {callState === "incoming" ? (
-          <Select
-            variant="outlined"
-            className={classes.selectCustomer}
-            onChange={(event) => {
-              if (event.target.value !== "Select a Customer")
-                setCustomerId(event.target.value);
-            }}
-            defaultValue={"Select a Customer"}
-          >
-            <MenuItem value={"Select a Customer"}>
-              <em>Select a Customer</em>
-            </MenuItem>
-            {customerData.map((item) => (
-              <MenuItem key={item.customerId} value={item}>
-                {item.customerName}
-              </MenuItem>
-            ))}
-          </Select>
-        ) : (
-          <Select
-            variant="outlined"
-            className={classes.selectCustomer}
-            onChange={(event) => {
-              if (event.target.value !== "Select a Scenario")
-                setScenario(event.target.value);
-            }}
-            defaultValue={"Select a Scenario"}
-          >
-            <MenuItem value={"Select a Scenario"}>
-              <em>Select a Scenario</em>
-            </MenuItem>
-            {scenarios.map((item) => (
-              <MenuItem key={item.id} value={item.id}>
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        )}
-        <br />
-        <HorizontalStepper />
-        <br />
-        <br />
-        <Grid item xs={12} container justifyContent="center">
-          <IconButton
-            className={classes.submitButton}
-            onClick={startSimulation}
-            disabled={
-              (callState === "outgoing" && scenario === null) ||
-              (callState === "incoming" && customer === null)
-            }
-          >
-            Start Simulation
-          </IconButton>
-        </Grid>
+        </div>
       </Card>
     </Grid>
   );

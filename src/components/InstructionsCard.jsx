@@ -66,7 +66,7 @@ export default function InstructionsCard() {
   return (
     <Grid item xs={6} className={classes.root}>
       <Card className={classes.card}>
-        <Typography variant="h3">Instructions</Typography>
+        <Typography variant="h2">Instructions</Typography>
         <br />
         <Typography variant="subtitle2">
           This is a collection analyst in the O2C cycle for Highradius
