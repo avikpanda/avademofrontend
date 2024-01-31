@@ -80,9 +80,9 @@ export default function TextToSpeechComponent() {
           console.error(text);
         }
         console.log("Avik Test", result);
-        setTimeout(() => {
-          setAITranscript(textToSpeak);
-        }, 500);
+        setAITranscript(textToSpeak);
+        // setTimeout(() => {
+        // }, 500);
       },
       function (err) {
         setAITranscript(`Error: ${err}.\n`);

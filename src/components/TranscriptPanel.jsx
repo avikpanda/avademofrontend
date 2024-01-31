@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import { Grid, Card } from "@material-ui/core";
+import { Grid, Card, Button } from "@material-ui/core";
+import { Mic, MicOff } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { useSelector } from "react-redux";
@@ -8,6 +9,7 @@ import TextToSpeechComponent from "./TextToSpeechComponent";
 import Chatbox from "./Chatbox";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -23,11 +25,27 @@ const useStyles = makeStyles((theme) => ({
     )} ${theme.typography.pxToRem(30)} 0`,
   },
   chatContainer: {
-    height: `calc(100% - ${theme.typography.pxToRem(60)})`,
+    height: `calc(100% - ${theme.typography.pxToRem(100)})`,
     overflow: "scroll",
     "&::-webkit-scrollbar": {
       display: "none",
     },
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+    marginTop: theme.typography.pxToRem(5),
+  },
+  micButton: {
+    backgroundColor: "#8FD163",
+    width: theme.typography.pxToRem(35),
+    height: theme.typography.pxToRem(35),
+    borderRadius: "50%",
+    pointerEvents: "none",
+  },
+  muteButton: {
+    backgroundColor: theme.palette.text.disabled,
+    pointerEvents: "none",
   },
 }));
 
@@ -49,6 +67,10 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
 
   const isAIResponseInProgress = useSelector(
     (state) => state.applicationDataReducer.isAIResponseInProgress
+  );
+
+  const isAISpeaking = useSelector(
+    (state) => state.applicationDataReducer.isAISpeaking
   );
 
   const updateScroll = () => {
@@ -130,6 +152,26 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
             <TextToSpeechComponent />
           </>
         )}
+        <div className={classes.buttonContainer}>
+          <Button
+            classes={{
+              text: clsx(classes.micButton, {
+                [classes.muteButton]:
+                  !isSimulationStarted ||
+                  (isSimulationStarted &&
+                    (isAISpeaking || isAIResponseInProgress)),
+              }),
+            }}
+          >
+            {!isSimulationStarted ||
+            (isSimulationStarted &&
+              (isAISpeaking || isAIResponseInProgress)) ? (
+              <MicOff />
+            ) : (
+              <Mic />
+            )}
+          </Button>
+        </div>
       </Card>
     </Grid>
   );
