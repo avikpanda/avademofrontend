@@ -40,13 +40,20 @@ function App() {
 
   useEffect(() => {
     if (isWebSocketConnected && !isSimulationStarted) {
-      SockClient.current.sendMessage("/clear-chat-context");
+      SockClient.current.sendMessage(
+        "/process-speech",
+        "Summarize the above conversation within 50 words. create action pointers as necessary"
+      );
     }
     if (isSimulationStarted) {
       const currentAnswer =
         callState === "incoming"
-          ? "Hi Ayush, This is Ava from Highradius. How can I help you today?"
-          : "Hey Ayush, I am Ava from HighRadius. Is this the right time to talk?";
+          ? "Hi " +
+            contactName.split(" ")[0] +
+            ", This is Ava from Highradius. How can I help you today?"
+          : "Hey " +
+            contactName.split(" ")[0] +
+            ", I am Ava from HighRadius. Is this the right time to talk?";
       dispatch({
         type: "SET_AI_RECOGNIZING_TRANSCRIPT",
         payload: currentAnswer,
@@ -71,7 +78,8 @@ function App() {
       "Alright! I will sent you the account statement. Is there anything else I can help you with?";
     const paymentLinkAnswer =
       "I have sent you the payment link over the email. You can click on the link and make your payment.";
-    const p2pAnswer = "Sure I will create a P2P for you.";
+    const p2pAnswer =
+      "Sure I will create a P2P for you. Is there anything i can help you with.";
     let currentAnswer;
     let emailType;
     switch (functionType) {
@@ -187,7 +195,7 @@ function App() {
     <>
       <SockJsClient
         url="http://localhost:8080/ava-events"
-        topics={["/messages"]}
+        topics={["/messages", "/usage"]}
         onConnect={() => {
           console.log("connected");
           setWebSocketConnectionStatus(true);
@@ -196,9 +204,13 @@ function App() {
           console.log("Disconnected");
           setWebSocketConnectionStatus(false);
         }}
-        onMessage={(msg) => {
-          console.log(msg);
-          handleAIMessage(msg);
+        onMessage={(msg, topic) => {
+          console.log({ msg, topic });
+          if (topic === "/messages") {
+            handleAIMessage(msg);
+          } else if (topic === "/usage") {
+            console.log(msg);
+          }
         }}
         ref={(client) => {
           console.log(client);
@@ -213,7 +225,10 @@ function App() {
           isWebSocketConnected={isWebSocketConnected}
         />
       ) : (
-        <Home />
+        <Home
+          client={SockClient.current}
+          isWebSocketConnected={isWebSocketConnected}
+        />
       )}
       <Footer />
       <Snackbar

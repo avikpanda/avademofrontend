@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Home() {
+export default function Home({ client, isWebSocketConnected }) {
   const classes = useStyles();
 
   return (
@@ -22,7 +22,10 @@ export default function Home() {
       className={classes.root}
     >
       <InstructionsCard />
-      <InitiateWizardCard />
+      <InitiateWizardCard
+        client={client}
+        isWebSocketConnected={isWebSocketConnected}
+      />
     </Grid>
   );
 }

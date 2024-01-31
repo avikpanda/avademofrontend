@@ -66,7 +66,7 @@ export default function AccountInfo() {
             {customerData?.openInvoices}
           </Typography>
           <Typography className={classes.title} color="textSecondary">
-            <div className={classes.label}>Last Call Summary :</div>
+            <div className={classes.label}>Last Communication Summary :</div>
             {customerData?.lastCallSummary}
           </Typography>
           <Typography className={classes.title} color="textSecondary">

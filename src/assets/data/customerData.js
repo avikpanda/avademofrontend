@@ -2,11 +2,11 @@ const data = [
   {
     customerId: 123,
     customerName: "Aqua Packaging",
-    customerNumber: "2356734",
-    openInvoices: "64785, 34567, 88995",
+    customerNumber: "8923",
+    openInvoices: "22355, 3434, 4545, 5656, 6767, 8989, ",
     lastCallSummary:
-      "Discussed about open invoices. Abhijeet Dey made a Payment Commitment of USD 3,600",
-    status: "Escalated",
+      "Email sent to customer with their new invoice copies",
+    status: "Open",
     contacts: [
       {
         id: 1,
@@ -22,12 +22,12 @@ const data = [
   },
   {
     customerId: 234,
-    customerName: "Glass Construction",
+    customerName: "Bottle Makers",
     customerNumber: "2356734",
-    openInvoices: "64785, 34567, 88995",
+    openInvoices: "1234, 2345, 3456, 4567, 5678",
     lastCallSummary:
-      "Discussed about open invoices. Abhijeet Dey made a Payment Commitment of USD 3,600",
-    status: "Escalated",
+      "Call made to customer to remind about the payment commitment made on 2024-01-21 due on 2024-01-29 for invoice 2345.",
+    status: "On Hold",
     contacts: [
       {
         id: 3,
@@ -43,7 +43,7 @@ const data = [
   },
   {
     customerId: 345,
-    customerName: "Bottle Makers",
+    customerName: "Glass Construction",
     customerNumber: "2356734",
     openInvoices: "64785, 34567, 88995",
     lastCallSummary:

@@ -96,16 +96,19 @@ const scenarios = [
 ];
 
 const contactData = [
+  "Ayush Kumar",
   "Abhijeet Dey",
-  "Sayeed Shabbir",
   "Tanuj Vohra",
+  "Sayid Shabeer",
+  "Anupam Sarda",
+  "Prateek Rastogi",
+  "Vivek Mittal",
   "Avik Panda",
   "Shreeja Verma",
-  "Ayush Kumar",
-  "Barkha Sinha"
+  "Barkha Sinha",
 ];
 
-export default function InitiateWizardCard() {
+export default function InitiateWizardCard({ client, isWebSocketConnected }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -148,10 +151,10 @@ export default function InitiateWizardCard() {
       payload: contactName,
     });
   };
-  React.useEffect(()  => { 
+  React.useEffect(() => {
     setCustomerId(customerData[0]);
     setContactName(contactData[0]);
-  }, [])
+  }, []);
 
   const setScenario = (id) => {
     dispatch({
@@ -161,6 +164,7 @@ export default function InitiateWizardCard() {
   };
 
   const startSimulation = () => {
+    client.sendMessage("/clear-chat-context");
     dispatch({
       type: "SET_SIMULATION_STARTED",
       payload: true,
@@ -181,7 +185,9 @@ export default function InitiateWizardCard() {
               className={classes.robogif}
             />
           </div>
-          <Typography variant="body1" className={classes.label}>Select a Call Type:</Typography>
+          <Typography variant="body1" className={classes.label}>
+            Select a Call Type:
+          </Typography>
           <Button
             className={classes.callTypeSwitch}
             classes={{ root: classes.callTypeSwitchRoot }}
@@ -226,7 +232,7 @@ export default function InitiateWizardCard() {
               onChange={(event) => {
                   setContactName(event.target.value);
               }}
-            defaultValue={"Abhijeet Dey"}
+              defaultValue={"Ayush Kumar"}
             >
               {contactData?.map((item) => (
                 <MenuItem key={item} value={item}>
@@ -241,7 +247,7 @@ export default function InitiateWizardCard() {
               onChange={(event) => {
                   setContactName(event.target.value);
               }}
-              defaultValue={"Abhijeet Dey"}
+              defaultValue={"Ayush Kumar"}
             >
               {contactData?.map((item) => (
                 <MenuItem key={item} value={item}>
