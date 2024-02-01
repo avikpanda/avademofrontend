@@ -115,6 +115,12 @@ function App() {
         currentAnswer = p2pAnswer;
         break;
       case "CALL_TRANSFER":
+        setTimeout(() => {
+          dispatch({
+            type: "SET_SIMULATION_STARTED",
+            payload: false,
+          });
+        }, 1000);
         dispatch({
           type: "ADD_AI_TOUCHPOINT",
           payload: "Transferring the call to a Specialist",
@@ -129,7 +135,7 @@ function App() {
             type: "SET_SIMULATION_STARTED",
             payload: false,
           });
-        }, 2000);
+        }, 1000);
         break;
       default:
         break;

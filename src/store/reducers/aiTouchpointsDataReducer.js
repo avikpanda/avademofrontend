@@ -10,6 +10,8 @@ export default function aiTouchpointsDataReducer(state = initialState, action) {
       };
     case "RESET_REDUCERS":
       return initialState;
+    case "SET_SIMULATION_RESET":
+      return initialState;
     default:
       return state;
   }

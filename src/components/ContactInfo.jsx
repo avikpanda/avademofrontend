@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     padding: `${theme.typography.pxToRem(10)} ${theme.typography.pxToRem(30)}`,
   },
   title: {
-    marginTop: theme.typography.pxToRem(4),
+    marginTop: theme.typography.pxToRem(10),
     display: "flex",
     width: "100%",
   },

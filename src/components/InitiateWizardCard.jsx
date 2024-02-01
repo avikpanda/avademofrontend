@@ -72,12 +72,11 @@ const useStyles = makeStyles((theme) => ({
   },
   robotContainer: {
     position: "absolute",
-    right: "32%"
+    right: "32%",
   },
   label: {
-    marginBottom: theme.typography.pxToRem(5)
-
-  }
+    marginBottom: theme.typography.pxToRem(5),
+  },
 }));
 
 const scenarios = [
@@ -166,6 +165,9 @@ export default function InitiateWizardCard({ client, isWebSocketConnected }) {
   const startSimulation = () => {
     client.sendMessage("/clear-chat-context");
     dispatch({
+      type: "SET_SIMULATION_RESET",
+    });
+    dispatch({
       type: "SET_SIMULATION_STARTED",
       payload: true,
     });
@@ -230,7 +232,7 @@ export default function InitiateWizardCard({ client, isWebSocketConnected }) {
               variant="outlined"
               className={classes.selectCustomer}
               onChange={(event) => {
-                  setContactName(event.target.value);
+                setContactName(event.target.value);
               }}
               defaultValue={"Ayush Kumar"}
             >
@@ -245,7 +247,7 @@ export default function InitiateWizardCard({ client, isWebSocketConnected }) {
               variant="outlined"
               className={classes.selectCustomer}
               onChange={(event) => {
-                  setContactName(event.target.value);
+                setContactName(event.target.value);
               }}
               defaultValue={"Ayush Kumar"}
             >

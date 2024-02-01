@@ -31,12 +31,12 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.typography.pxToRem(30),
   },
   title: {
-    marginTop: theme.typography.pxToRem(4),
+    marginTop: theme.typography.pxToRem(10),
     display: "flex",
     width: "100%",
   },
   label: {
-    minWidth: "33.33%",
+    minWidth: "40%",
   },
 }));
 

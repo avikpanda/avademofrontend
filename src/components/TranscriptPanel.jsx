@@ -82,15 +82,6 @@ export default function TranscriptPanel({ client, isWebSocketConnected }) {
     updateScroll();
   }, [transcriptData, preTranscriptData, isAIResponseInProgress]);
 
-  useEffect(() => {
-    if (!isSimulationStarted && isWebSocketConnected) {
-      dispatch({
-        type: "ADD_AI_TOUCHPOINT",
-        payload: "Sending Call Summary",
-      });
-    }
-  }, [isSimulationStarted]);
-
   const Spinner = () => (
     <div className="spinner">
       <div className="spinner__item1"></div>
